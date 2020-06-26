@@ -22,6 +22,8 @@ struct ContentView: View {
     
     /// `状态 - 是否出现`
     @State var isShow = false
+    /// `初始大小值为0`
+    @State var viewState = CGSize.zero
     
     var body: some View {
         ZStack { // 立体纬度，父容器
@@ -37,6 +39,7 @@ struct ContentView: View {
                 .cornerRadius(kDefaultRadius)
                 .shadow(radius: kDefaultRadius) // 阴影
                 .offset(x: 0, y: isShow ? -kDefaultRadius * 20 : -kDefaultRadius * 2) // 通过点击改变状态设置不同偏移量
+                .offset(x: viewState.width, y: viewState.height) // 设置同卡片视图的联动偏移为：存储的值(随同一起动)
                 .scaleEffect(0.9) // 缩放
                 .rotationEffect(.degrees(isShow ? 0 : kRotationAngle)) // 通过点击改变状态设置不同偏移量
                 .rotation3DEffect(.degrees(kRotationAngle), axis: (x: kDefaultRadius / 2, y: 0, z: 0))
@@ -48,6 +51,7 @@ struct ContentView: View {
                 .cornerRadius(kDefaultRadius)
                 .shadow(radius: kDefaultRadius) // 阴影
                 .offset(x: 0, y: isShow ? -kDefaultRadius * 10 : -kDefaultRadius) // 通过点击改变状态设置不同偏移量
+                .offset(x: viewState.width, y: viewState.height) // 设置同卡片视图的联动偏移为：存储的值(随同一起动)
                 .scaleEffect(0.95) // 缩放
                 .rotationEffect(.degrees(isShow ? 0 : kRotationAngle / 2)) // 通过点击改变状态设置不同偏移量
                 .rotation3DEffect(.degrees(kRotationAngle / 2), axis: (x: kDefaultRadius / 2, y: 0, z: 0))
@@ -56,10 +60,24 @@ struct ContentView: View {
             // 关于动画时长：0.3s 是一个很好的动画持续时长，默认是 0.25
             
             CardView() // 卡片视图
+                .offset(x: viewState.width, y: viewState.height) // 设置偏移为：存储的值
+                // 注意这里：偏移设置在手势之前，目的是为了不产生滞后
                 .blendMode(.hardLight)
-                .onTapGesture {
+                .animation(.spring(response: 0.3, dampingFraction: 0.6, blendDuration: 0)) // 设置过渡动画
+                // response:整个过渡动画的反应时间，持续时长  dampingFraction:弹性系数，值越大，弹力越小
+                .onTapGesture { // 点击
                     self.isShow.toggle()
             }
+            .gesture( // 创建手势
+                DragGesture().onChanged({ (value) in // 拖拽手势 - 拖拽变化
+                    self.viewState = value.translation // value 存储了拖拽的 x 和 y 值
+                    self.isShow = true // 设置状态，拖拽时打开
+                })
+                    .onEnded({ (value) in // 拖拽结束
+                        self.viewState = .zero // 设置回初始值
+                        self.isShow = false // 设置状态，结束拖拽时关闭
+                    })
+            )
             
             BottomCardView() // 底部视图
                 .blur(radius: isShow ? kDefaultRadius : 0) // 通过点击改变状态设置改变模糊
