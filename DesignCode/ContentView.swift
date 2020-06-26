@@ -26,6 +26,10 @@ struct ContentView: View {
     @State var viewState = CGSize.zero
     /// `设置卡片初始状态为隐藏`
     @State var isShowCard = false
+    /// `设置底部视图初始值`
+    @State var bottomState = CGSize.zero
+    /// `设置是否完全展示底部卡片状态`
+    @State var isShowFull = false
     
     var body: some View {
         ZStack { // 立体纬度，父容器
@@ -104,10 +108,36 @@ struct ContentView: View {
                     })
             )
             
+//            Text("\(bottomState.height)").offset(y: -340) // 实时预览中打印值的变化，比 print 更直观
+            
             BottomCardView() // 底部视图
                 .offset(x: 0, y: isShowCard ? 400 : 1000) // 设置点击时偏移量
+                .offset(y: bottomState.height) // 设置拖拽偏移
                 .blur(radius: isShow ? kDefaultRadius : 0) // 通过点击改变状态设置改变模糊
                 .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) // 添加自定义时间曲线动画效果
+                .gesture( // 创建拖拽手势
+                    DragGesture().onChanged({ (value) in
+                        self.bottomState = value.translation // 存储拖拽改变的值
+                        if self.isShowFull {
+                            self.bottomState.height += -340 // 如果是拉满卡片状态，那么需要加上偏移量
+                        }
+                        if self.bottomState.height < -340 {
+                            self.bottomState.height = -340
+                        }
+                    })
+                        .onEnded({ (value) in // 结束拖拽
+                            if self.bottomState.height > 50 { // 向下拖拽偏移量超过 50 ，dismiss 底部卡片
+                                self.isShowCard = false
+                            }
+                            if (self.bottomState.height < -100 && !self.isShowFull) || (self.bottomState.height < -250 && self.isShowFull) { // 向上拖拽偏移量超过 100，或者拉满时向下偏移量小于 -250，旧把视图拉上去
+                                self.bottomState.height = -340
+                                self.isShowFull = true
+                            } else {
+                                self.bottomState = .zero // 重置视图位置
+                                self.isShowFull = false
+                            }
+                        })
+                )
         }
         
     }
