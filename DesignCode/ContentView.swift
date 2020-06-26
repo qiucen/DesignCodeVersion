@@ -20,6 +20,9 @@ private let kRotationAngle: Double = 10
 // MARK: - 屏幕视图
 struct ContentView: View {
     
+    
+    
+    // MARK: - 状态设置
     /// `状态 - 是否出现`
     @State var isShow = false
     /// `初始大小值为0`
@@ -31,10 +34,14 @@ struct ContentView: View {
     /// `设置是否完全展示底部卡片状态`
     @State var isShowFull = false
     
+    
+    
+    // MARK: - 父容器
     var body: some View {
         ZStack { // 立体纬度，父容器
             
             
+            // MARK: - 标题
             TitleView() // 标题
                 .blur(radius: isShow ? kDefaultRadius : 0) // 通过点击改变状态设置改变模糊
                 .opacity(isShowCard ? 0.4 : 1) // 添加不透明度效果
@@ -46,6 +53,8 @@ struct ContentView: View {
                     // 此外，还可添加速度、重复次数等属性
             ) // 添加默认动画效果
             
+            
+            // MARK: - 背景 CardView 两个
             // 这里的组件顺序： 从上到下依次是 从外到里（以我自身为里），也就是说，最上面的组件在最外面
             BackCardView() // 最外层View
                 .frame(width: isShowCard ? kCardWidth - 40 : kCardWidth, height: kCardHeight)
@@ -78,6 +87,8 @@ struct ContentView: View {
                 .animation(.easeInOut(duration: 0.3)) // 添加动画 - 淡入淡出
             // 关于动画时长：0.3s 是一个很好的动画持续时长，默认是 0.25
             
+            
+            // MARK: - 卡片视图
             CardView() // 卡片视图
                 .frame(width: isShowCard ? UIScreen.main.bounds.width : kCardWidth, height: kCardHeight)
                 .background(Color.black)
@@ -110,6 +121,7 @@ struct ContentView: View {
             
 //            Text("\(bottomState.height)").offset(y: -340) // 实时预览中打印值的变化，比 print 更直观
             
+            // MARK: - 底部卡片视图
             BottomCardView() // 底部视图
                 .offset(x: 0, y: isShowCard ? 400 : 1000) // 设置点击时偏移量
                 .offset(y: bottomState.height) // 设置拖拽偏移
