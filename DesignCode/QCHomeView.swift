@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// `屏幕尺寸`
+let kScreenRect = UIScreen.main.bounds
 
 /// `按钮宽高`
 private let kButtonWidth: CGFloat = 36
@@ -23,22 +25,9 @@ struct QCHomeView: View {
         ZStack {
             Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
-            VStack {
-                HStack {
-                    Text("观看视频") // 标题文本
-                        .font(.system(size: 20, weight: .bold))
-                    Spacer()
-                    Button(action: { self.isShowProfile.toggle() }) { // 头像按钮
-                        Image("Illustration5")
-                            .renderingMode(.original) // 原色模式
-                            .resizable() // 可调整尺寸
-                            .frame(width: kButtonWidth, height: kButtonWidth) // 尺寸
-                    }
-                }
-                .padding(.horizontal) // 水平填充
-                .padding(.top, 30) // 顶部填充
-                Spacer()
-            }
+            
+            
+            QCHomeDetailView(isShowProfile: $isShowProfile) // 提取视图到一个单独的文件
                 .padding(.top, 44) // 手动设置顶部填充状态栏高度
                 .background(Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))) // 设置背景颜色
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 设置圆角裁剪
@@ -52,7 +41,7 @@ struct QCHomeView: View {
             
             QCMenuView() // 菜单视图
                 .background(Color.black.opacity(0.001)) // 设置透明背景视图，目的在于添加点击手势
-                .offset(y: isShowProfile ? 0 : 1000) // 设置按钮点按偏移
+                .offset(y: isShowProfile ? 0 : kScreenRect.height) // 设置按钮点按偏移
                 .offset(y: viewState.height) // 设置拖拽手势产生的偏移，让视图移动
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
                 .onTapGesture { // 添加点击手势
@@ -76,5 +65,17 @@ struct QCHomeView: View {
 struct QCHomeView_Previews: PreviewProvider {
     static var previews: some View {
         QCHomeView()
+    }
+}
+
+struct AvatarButtonView: View {
+    @Binding var isShowProfile: Bool // 申明绑定状态 - 此处用来接收
+    var body: some View {
+        Button(action: { self.isShowProfile.toggle() }) { // 头像按钮
+            Image("Illustration5")
+                .renderingMode(.original) // 原色模式
+                .resizable() // 可调整尺寸
+                .frame(width: kButtonWidth, height: kButtonWidth) // 尺寸
+        }
     }
 }
