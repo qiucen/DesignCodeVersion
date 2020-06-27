@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct QCUpdateDetailView: View {
-    var update: QCUpdateModel = updates[0] // 默认显示的数据为第一条数据
+    var update: QCUpdateModel = updatesData[0] // 默认显示的数据为第一条数据
     var body: some View {
         List {
             VStack(spacing: 20) {
@@ -22,9 +22,10 @@ struct QCUpdateDetailView: View {
                     .lineSpacing(6)
 //                    .padding(.leading, 10) // 因为 tableView 本来就有填充，所以不用设置填充了
             }
-            .navigationBarTitle(update.title) // 设置导航栏返回按钮标题
+                .navigationBarTitle(update.title) // 设置导航栏返回按钮标题
         }
         .listStyle(PlainListStyle()) // 设置 tableView 的样式
+        .accentColor(.black)
     }
 }
 

@@ -31,7 +31,7 @@ struct QCHomeDetailView: View {
                         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10) // 第二重投影
                 }
                 .sheet(isPresented: $isShowUpdates) { // Modal 出一个页面，就是 present
-                    QCContentView()
+                    QCUpdatesListView()
                 }
                 
             }
