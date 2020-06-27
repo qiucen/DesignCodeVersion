@@ -24,10 +24,18 @@ struct QCHomeDetailView: View {
             .padding(.top, 30) // 顶部填充
             
             ScrollView(.horizontal, showsIndicators: false) { // 创建使用 ScrollView
-                HStack { // 如果要水平滑动，需要将内容放进 HStack 中
-                    ForEach(sectionData) { item in // 循环创建
-                        SectionView(section: item) // 填充数据
+                HStack(spacing: 20) { // 如果要水平滑动，需要将内容放进 HStack 中
+                    ForEach(sectionData) { item in // 循环填充
+                        GeometryReader { geo in // 滑动时数据动态监测器
+                            SectionView(section: item) // 填充数据
+                                .rotation3DEffect( // 设置 3d 动画效果
+                                    .degrees(Double(geo.frame(in: .global).minX - 30) / -20),
+                                    // 1. 这是横向滚动，所以需要 minX，如果纵向，就用 minY，30 是初始值，需要减掉，
+                                    //    除以倍数是为了让动画效果更平滑
+                                    axis: (x: 0, y: 10, z: 0)) // 固定角度在 y 轴上
+                        }
                     }
+                    .frame(width: 275, height: 275) // 此处需要重新设置卡片的 frame
                 }
                 .padding(30)
                 .padding(.bottom, 30)
@@ -59,6 +67,7 @@ struct SectionView: View {
                 Image(section.logo)
             }
             Text(section.text)
+                .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
             section.image
                 .resizable()
