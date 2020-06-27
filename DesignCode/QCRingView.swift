@@ -20,6 +20,7 @@ struct QCRingView: View {
     var color2 = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1) // 渐变颜色2
     var ringWidth: CGFloat = 200 // 圆环宽高
     var percent: CGFloat = 88 // 进度百分比
+    @Binding var isShow: Bool // 外部传值改变状态需要绑定，绑定只用指定类型不需要默认值
     
     var body: some View {
         
@@ -34,7 +35,7 @@ struct QCRingView: View {
                 .frame(width: ringWidth, height: ringWidth) // 设置尺寸
             
             Circle() // 进度圆环
-                .trim(from: progress, to: 1) // 剪切，默认 3点钟方向是起点，终点是(1 - 0.1) = 0.9 的位置
+                .trim(from: isShow ? progress : 1, to: 1) // 剪切，默认 3点钟方向是起点，终点是(1 - 0.1) = 0.9 的位置
                 .stroke( // 渲染
                     LinearGradient( // 渐变
                         gradient: Gradient(colors: [Color(color1), Color(color2)]), // 渐变颜色数组
@@ -56,12 +57,15 @@ struct QCRingView: View {
             Text("\(Int(percent))%")
                 .font(.system(size: 14 * mutiplier)) // 设置字体
                 .fontWeight(.bold) // 设置字号
+                .onTapGesture {
+                    self.isShow.toggle()
+            }
         }
     }
 }
 
 struct QCRingView_Previews: PreviewProvider {
     static var previews: some View {
-        QCRingView()
+        QCRingView(isShow: .constant(true))
     }
 }

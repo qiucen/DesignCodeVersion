@@ -39,6 +39,21 @@ struct QCHomeDetailView: View {
             .padding(.leading, 14) // 单独设置左边填充
             .padding(.top, 30) // 顶部填充
             
+            // MARK: - 文字 + 圆环视图
+            HStack(spacing: 12) {
+                QCRingView(color1: #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1), color2: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), ringWidth: 44, percent: 68, isShow: .constant(true))
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("还剩 6 分钟未观看").font(.subheadline).fontWeight(.bold)
+                    Text("今天看了 30 分钟").font(.caption)
+                }
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
+            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1)
+            
+            // MARK: - ScrollView
             ScrollView(.horizontal, showsIndicators: false) { // 创建使用 ScrollView
                 HStack(spacing: 20) { // 如果要水平滑动，需要将内容放进 HStack 中
                     ForEach(sectionData) { item in // 循环填充

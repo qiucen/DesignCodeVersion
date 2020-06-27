@@ -122,7 +122,7 @@ struct QCContentView: View {
 //            Text("\(bottomState.height)").offset(y: -340) // 实时预览中打印值的变化，比 print 更直观
             
             // MARK: - 底部卡片视图
-            BottomCardView() // 底部视图
+            BottomCardView(isShow: $isShowCard) // 底部视图
                 .offset(x: 0, y: isShowCard ? 400 : 1000) // 设置点击时偏移量
                 .offset(y: bottomState.height) // 设置拖拽偏移
                 .blur(radius: isShow ? kDefaultRadius : 0) // 通过点击改变状态设置改变模糊
@@ -218,6 +218,7 @@ struct TitleView: View {
 
 // MARK: - 底部视图
 struct BottomCardView: View {
+    @Binding var isShow: Bool // 绑定传值的状态
     var body: some View {
         VStack(spacing: kDefaultRadius) {
             Rectangle() // 圆角矩形
@@ -229,6 +230,23 @@ struct BottomCardView: View {
                 //                    .multilineTextAlignment(.center) // 设置多行文字居中对齐
                 .font(.subheadline) // 字体
                 .lineSpacing(4) // 行间距
+            HStack(spacing: 40) {
+                QCRingView(color1: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), color2: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), ringWidth: 88, percent: 78, isShow: $isShow)
+                    .animation(Animation.easeInOut.delay(0.3)) // 设置延迟动画，要在组件外部设置
+                             // 如果动画设置在组件内部，会优先应用组件内部的动画，外部设置动画将不起作用
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("SwiftUI").fontWeight(.bold) // 字号
+                    Text("12 节课已完成\n共学习了 10 小时")
+                        .font(.footnote) // 字体
+                        .foregroundColor(.gray) // 文字颜色
+                        .lineSpacing(4) // 行间距
+                }
+                .padding(20) // 填充
+                .background(Color.white) // 背景色
+                .cornerRadius(20) // 拐角半径
+                .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 10) // 阴影
+            }
+                
             Spacer()
         }
             .padding(.top, 8) // 顶部 8 个点
