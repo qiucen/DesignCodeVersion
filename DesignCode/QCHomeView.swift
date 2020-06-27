@@ -16,6 +16,8 @@ struct QCHomeView: View {
     
     /// `是否显示详情 - 默认不显示`
     @State var isShowProfile = false
+    /// `初始视图状态 - .zero`
+    @State var viewState: CGSize = .zero
     
     var body: some View {
         ZStack {
@@ -42,14 +44,31 @@ struct QCHomeView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 设置圆角裁剪
                 .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20) // 设置阴影
                 .offset(y: isShowProfile ? -450 : 0) // 设置偏移量
-                .rotation3DEffect(.degrees(isShowProfile ? -10 : 0), axis: (x: 10, y: 0, z: 0)) // 设置 3d 旋转效果
+                .rotation3DEffect(.degrees(isShowProfile ? Double(viewState.height / 10) - 10 : 0), axis: (x: 10, y: 0, z: 0)) // 设置 3d 旋转效果
+                              // 这里的 Double(viewState.height / 10) - 10 是为了不让动画这么锐利，看起来更平滑一点
                 .scaleEffect(isShowProfile ? 0.9 : 1) // 设置缩放
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
             
             QCMenuView() // 菜单视图
-                .offset(y: isShowProfile ? 0 : 600) // 设置按钮点按偏移
+                .background(Color.black.opacity(0.001)) // 设置透明背景视图，目的在于添加点击手势
+                .offset(y: isShowProfile ? 0 : 1000) // 设置按钮点按偏移
+                .offset(y: viewState.height) // 设置拖拽手势产生的偏移，让视图移动
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
+                .onTapGesture { // 添加点击手势
+                    self.isShowProfile.toggle() // 改变状态，dismiss 菜单视图
+            }
+                .gesture(
+                    DragGesture().onChanged({ (value) in
+                        self.viewState = value.translation // 存储偏移量
+                    })
+                        .onEnded({ (value) in
+                            if self.viewState.height > 50 { // 设置偏移量改变 dismiss 视图
+                                self.isShowProfile = false
+                            }
+                            self.viewState = .zero // 重置偏移量
+                        })
+            )
         }
     }
 }
