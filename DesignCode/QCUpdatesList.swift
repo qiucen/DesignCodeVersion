@@ -13,7 +13,7 @@ struct QCUpdatesList: View {
     var body: some View {
         NavigationView {
             List(updates) { update in
-                NavigationLink(destination: Text(update.text)) {
+                NavigationLink(destination: QCUpdateDetailView(update: update)) {
                     HStack {
                         Image(update.image)
                             .resizable()
@@ -69,8 +69,8 @@ struct QCUpdateModel: Identifiable {
 
 // MARK: - 样本数据
 let updates = [
-    QCUpdateModel(image: "Illustration1", title: "春天，十个海子", text: "春天， 十个海子全都复活\n在光明的景色中\n嘲笑这一野蛮而悲伤的海子\n你这么长久地沉睡到底是为了什么？", date: "6月 27日"),
-    QCUpdateModel(image: "Illustration1", title: "春天，十个海子", text: "春天， 十个海子低低地怒吼\n围着你和我跳舞、唱歌\n扯乱你的黑头发， 骑上你飞奔而去，尘土飞扬\n你被劈开的疼痛在大地弥漫", date: "6月 28日"),
-    QCUpdateModel(image: "Illustration1", title: "春天，十个海子", text: "在春天， 野蛮而复仇的海子\n就剩这一个， 最后一个\n这是黑夜的儿子， 沉浸于冬天， 倾心死亡\n不能自拔， 热爱着空虚而寒冷的乡村", date: "6月 29日"),
-    QCUpdateModel(image: "Illustration1", title: "春天，十个海子", text: "那里的谷物高高堆起， 遮住了窗子\n它们一半用于一家六口人的嘴， 吃和胃\n一半用于农业， 他们自己繁殖\n大风从东吹到西， 从北刮到南， 无视黑夜和黎明\n你所说的曙光究竟是什么意思", date: "6月 30日")
+    QCUpdateModel(image: "Illustration1", title: "春天，十个海子（一）", text: "春天， 十个海子全都复活\n在光明的景色中\n嘲笑这一野蛮而悲伤的海子\n你这么长久地沉睡到底是为了什么？", date: "6月 27日"),
+    QCUpdateModel(image: "Illustration2", title: "春天，十个海子（二）", text: "春天， 十个海子低低地怒吼\n围着你和我跳舞、唱歌\n扯乱你的黑头发， 骑上你飞奔而去，尘土飞扬\n你被劈开的疼痛在大地弥漫", date: "6月 28日"),
+    QCUpdateModel(image: "Illustration3", title: "春天，十个海子（三）", text: "在春天， 野蛮而复仇的海子\n就剩这一个， 最后一个\n这是黑夜的儿子， 沉浸于冬天， 倾心死亡\n不能自拔， 热爱着空虚而寒冷的乡村", date: "6月 29日"),
+    QCUpdateModel(image: "Illustration4", title: "春天，十个海子（四）", text: "那里的谷物高高堆起， 遮住了窗子\n它们一半用于一家六口人的嘴， 吃和胃\n一半用于农业， 他们自己繁殖\n大风从东吹到西， 从北刮到南， 无视黑夜和黎明\n你所说的曙光究竟是什么意思", date: "6月 30日")
 ]
