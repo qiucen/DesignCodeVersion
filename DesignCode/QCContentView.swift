@@ -18,7 +18,7 @@ private let kDefaultRadius: CGFloat = 20.0
 private let kRotationAngle: Double = 10
 
 // MARK: - 屏幕视图
-struct ContentView: View {
+struct QCContentView: View {
     
     
     
@@ -155,9 +155,9 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct QCContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        QCContentView()
     }
 }
 

@@ -11,6 +11,7 @@ import SwiftUI
 // MARK:  - 提取的独立视图
 struct QCHomeDetailView: View {
     @Binding var isShowProfile: Bool
+    @State var isShowUpdates = false
     var body: some View {
         VStack {
             HStack {
@@ -18,6 +19,21 @@ struct QCHomeDetailView: View {
                     .font(.system(size: 20, weight: .bold))
                 Spacer()
                 AvatarButtonView(isShowProfile: $isShowProfile) // 此处传递绑定状态，绑定用于组件之间的通信
+                
+                Button(action: { self.isShowUpdates.toggle() }) { // 创建按钮，点击时改变状态
+                    Image(systemName: "bell")
+                        .renderingMode(.original)
+                        .font(.system(size: 16, weight: .medium))
+                        .frame(width: 36, height: 36)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1) // 第一重投影
+                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10) // 第二重投影
+                }
+                .sheet(isPresented: $isShowUpdates) { // Modal 出一个页面，就是 present
+                    QCContentView()
+                }
+                
             }
             .padding(.horizontal) // 水平填充
             .padding(.leading, 14) // 单独设置左边填充
@@ -49,7 +65,7 @@ struct QCHomeDetailView: View {
 struct QCHomeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         QCHomeDetailView(isShowProfile: .constant(false)) // 这里的预览视图传递 .constant(false)
-        // 是因为，没有可以传递的绑定值，所以传默认值
+                                                          // 是因为，没有可以传递的绑定值，所以传默认值
     }
 }
 
