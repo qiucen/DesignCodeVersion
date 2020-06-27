@@ -13,6 +13,7 @@
 		BB57D72624A770FA00C3DBA1 /* QCUpdateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D72524A770FA00C3DBA1 /* QCUpdateDetailView.swift */; };
 		BB57D72824A778EE00C3DBA1 /* QCUpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D72724A778EE00C3DBA1 /* QCUpdateStore.swift */; };
 		BB57D72A24A7963A00C3DBA1 /* QCTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D72924A7963A00C3DBA1 /* QCTabBarView.swift */; };
+		BB57D72C24A7B16F00C3DBA1 /* QCRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D72B24A7B16F00C3DBA1 /* QCRingView.swift */; };
 		BB66A17A24A61792004F82D4 /* QCMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB66A17924A61792004F82D4 /* QCMenuView.swift */; };
 		BB7FC73A24A49FAF008FD8F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FC73924A49FAF008FD8F8 /* AppDelegate.swift */; };
 		BB7FC73C24A49FAF008FD8F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FC73B24A49FAF008FD8F8 /* SceneDelegate.swift */; };
@@ -29,6 +30,7 @@
 		BB57D72524A770FA00C3DBA1 /* QCUpdateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCUpdateDetailView.swift; sourceTree = "<group>"; };
 		BB57D72724A778EE00C3DBA1 /* QCUpdateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCUpdateStore.swift; sourceTree = "<group>"; };
 		BB57D72924A7963A00C3DBA1 /* QCTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCTabBarView.swift; sourceTree = "<group>"; };
+		BB57D72B24A7B16F00C3DBA1 /* QCRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCRingView.swift; sourceTree = "<group>"; };
 		BB66A17924A61792004F82D4 /* QCMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCMenuView.swift; sourceTree = "<group>"; };
 		BB7FC73624A49FAF008FD8F8 /* DesignCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB7FC73924A49FAF008FD8F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				BB7FC73924A49FAF008FD8F8 /* AppDelegate.swift */,
 				BB7FC73B24A49FAF008FD8F8 /* SceneDelegate.swift */,
 				BB7FC73D24A49FAF008FD8F8 /* QCContentView.swift */,
+				BB57D72B24A7B16F00C3DBA1 /* QCRingView.swift */,
 				BB57D71F24A717CD00C3DBA1 /* QCHomeView.swift */,
 				BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */,
 				BB66A17924A61792004F82D4 /* QCMenuView.swift */,
@@ -175,6 +178,7 @@
 				BB7FC73C24A49FAF008FD8F8 /* SceneDelegate.swift in Sources */,
 				BB7FC73E24A49FAF008FD8F8 /* QCContentView.swift in Sources */,
 				BB57D72824A778EE00C3DBA1 /* QCUpdateStore.swift in Sources */,
+				BB57D72C24A7B16F00C3DBA1 /* QCRingView.swift in Sources */,
 				BB66A17A24A61792004F82D4 /* QCMenuView.swift in Sources */,
 				BB57D72A24A7963A00C3DBA1 /* QCTabBarView.swift in Sources */,
 				BB57D72024A717CD00C3DBA1 /* QCHomeView.swift in Sources */,
