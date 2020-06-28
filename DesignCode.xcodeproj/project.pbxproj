@@ -32,6 +32,7 @@
 		BBF3410524A8434D0067AAA3 /* WorkSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340FB24A8434D0067AAA3 /* WorkSans-Thin.ttf */; };
 		BBF3410624A8434D0067AAA3 /* WorkSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340FC24A8434D0067AAA3 /* WorkSans-Black.ttf */; };
 		BBF3410724A8434D0067AAA3 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340FD24A8434D0067AAA3 /* WorkSans-Bold.ttf */; };
+		BBF3410924A87AB50067AAA3 /* QCCourseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		BBF340FB24A8434D0067AAA3 /* WorkSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Thin.ttf"; sourceTree = "<group>"; };
 		BBF340FC24A8434D0067AAA3 /* WorkSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Black.ttf"; sourceTree = "<group>"; };
 		BBF340FD24A8434D0067AAA3 /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Bold.ttf"; sourceTree = "<group>"; };
+		BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				BB57D72B24A7B16F00C3DBA1 /* QCRingView.swift */,
 				BB57D71F24A717CD00C3DBA1 /* QCHomeView.swift */,
 				BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */,
+				BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */,
 				BB66A17924A61792004F82D4 /* QCMenuView.swift */,
 				BB57D72324A7546A00C3DBA1 /* QCUpdatesListView.swift */,
 				BB57D72524A770FA00C3DBA1 /* QCUpdateDetailView.swift */,
@@ -228,6 +231,7 @@
 				BB7FC73A24A49FAF008FD8F8 /* AppDelegate.swift in Sources */,
 				BB57D72424A7546A00C3DBA1 /* QCUpdatesListView.swift in Sources */,
 				BB7FC73C24A49FAF008FD8F8 /* SceneDelegate.swift in Sources */,
+				BBF3410924A87AB50067AAA3 /* QCCourseListView.swift in Sources */,
 				BB7FC73E24A49FAF008FD8F8 /* QCContentView.swift in Sources */,
 				BB57D72824A778EE00C3DBA1 /* QCUpdateStore.swift in Sources */,
 				BB57D72C24A7B16F00C3DBA1 /* QCRingView.swift in Sources */,

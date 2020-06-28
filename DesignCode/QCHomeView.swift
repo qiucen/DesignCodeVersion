@@ -106,7 +106,7 @@ struct QCDismissButton: View {
             HStack {
                 Spacer()
                 Image(systemName: "xmark")
-                    .frame(width: 36, height: 36)
+                    .frame(width: kButtonWidth, height: kButtonWidth)
                     .foregroundColor(.white)
                     .background(Color.black)
                     .clipShape(Circle())
