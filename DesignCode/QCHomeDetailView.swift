@@ -16,7 +16,7 @@ struct QCHomeDetailView: View {
         VStack {
             HStack {
                 Text("观看视频") // 标题文本
-                    .font(.system(size: 20, weight: .bold))
+                    .font(.custom(QC_font.extraBold.rawValue, size: 34)) // 自定义字体，不过看不出啥效果
                 Spacer()
                 AvatarButtonView(isShowProfile: $isShowProfile) // 此处传递绑定状态，绑定用于组件之间的通信
                 
@@ -27,8 +27,9 @@ struct QCHomeDetailView: View {
                         .frame(width: 36, height: 36)
                         .background(Color.white)
                         .clipShape(Circle())
-                        .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1) // 第一重投影
-                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10) // 第二重投影
+                        .modifier(QCShadow(
+                            shadowOpacity1: 0.1, shadowRadius1: 1, // 第一重投影
+                            shadowOpacity2: 0.2, shadowRadius2: 10)) // 第二重投影
                 }
                 .sheet(isPresented: $isShowUpdates) { // Modal 出一个页面，就是 present
                     QCUpdatesListView()
@@ -40,18 +41,11 @@ struct QCHomeDetailView: View {
             .padding(.top, 30) // 顶部填充
             
             // MARK: - 文字 + 圆环视图
-            HStack(spacing: 12) {
-                QCRingView(color1: #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1), color2: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), ringWidth: 44, percent: 68, isShow: .constant(true))
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("还剩 6 分钟未观看").font(.subheadline).fontWeight(.bold)
-                    Text("今天看了 30 分钟").font(.caption)
-                }
+            ScrollView(.horizontal, showsIndicators: false) {
+                QCWatchRingsView()
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 30)
             }
-            .padding(8)
-            .background(Color.white)
-            .cornerRadius(20)
-            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
-            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1)
             
             // MARK: - ScrollView
             ScrollView(.horizontal, showsIndicators: false) { // 创建使用 ScrollView
@@ -141,3 +135,43 @@ let sectionData = [
 ]
 
 
+// MARK: - 整个观看进度条视图
+struct QCWatchRingsView: View {
+    var body: some View {
+        HStack(spacing: 30) {
+            HStack(spacing: 12) {
+                QCRingView(color1: #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1), color2: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), ringWidth: 44, percent: 68, isShow: .constant(true))
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("还剩 6 分钟未观看").bold().modifier(QCFont(style: .subheadline)) // 自定义字体
+                    Text("今天看了 30 分钟").font(.caption)
+                }
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+                .modifier(QCShadow( // 自定义阴影修饰符
+                    shadowOpacity1: 0.1, shadowRadius1: 12,
+                    shadowOpacity2: 0.1, shadowRadius2: 10))
+            
+            HStack(spacing: 12) {
+                QCRingView(color1: #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1), color2: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1), ringWidth: 44, percent: 56, isShow: .constant(true))
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+                .modifier(QCShadow( // 自定义阴影修饰符
+                    shadowOpacity1: 0.1, shadowRadius1: 12,
+                    shadowOpacity2: 0.1, shadowRadius2: 10))
+            
+            HStack(spacing: 12) {
+                QCRingView(color1: #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1), color2: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1), ringWidth: 32, percent: 32, isShow: .constant(true))
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+                .modifier(QCShadow( // 自定义阴影修饰符
+                    shadowOpacity1: 0.1, shadowRadius1: 12,
+                    shadowOpacity2: 0.1, shadowRadius2: 10))
+        }
+    }
+}
