@@ -20,16 +20,24 @@ struct QCHomeView: View {
     @State var isShowProfile = false
     /// `初始视图状态 - .zero`
     @State var viewState: CGSize = .zero
+    /// `是否显示内容 - 默认不显示`
+    @State var isShowContent = false
     
     var body: some View {
         ZStack {
             Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
             
-            
-            QCHomeDetailView(isShowProfile: $isShowProfile) // 提取视图到一个单独的文件
+            QCHomeDetailView(isShowProfile: $isShowProfile, isShowContent: $isShowContent) // 提取视图到一个单独的文件
                 .padding(.top, 44) // 手动设置顶部填充状态栏高度
-                .background(Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))) // 设置背景颜色
+                .background( // 设置背景视图：渐变 + 背景颜色
+                    VStack {
+                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)), Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))]), startPoint: .top, endPoint: .bottom)
+                            .frame(height: 200)
+                        Spacer()
+                    }
+                    .background(Color.white)
+                )
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 设置圆角裁剪
                 .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20) // 设置阴影
                 .offset(y: isShowProfile ? -450 : 0) // 设置偏移量
@@ -58,6 +66,16 @@ struct QCHomeView: View {
                             self.viewState = .zero // 重置偏移量
                         })
             )
+            if isShowContent { // 改变状态，显示视图
+                Color.white.edgesIgnoringSafeArea(.all)
+                QCContentView()
+                QCDismissButton() // 堆叠顺序： 关闭按钮应该在内容视图之上，否则不能交互
+                    .transition(.move(edge: .top))
+                    .animation(.spring(response: 0.6, dampingFraction: 0.8, blendDuration: 0))
+                    .onTapGesture {
+                        self.isShowContent = false
+                }
+            }
         }
     }
 }
@@ -68,6 +86,7 @@ struct QCHomeView_Previews: PreviewProvider {
     }
 }
 
+// MARK: - 用户头像视图
 struct AvatarButtonView: View {
     @Binding var isShowProfile: Bool // 申明绑定状态 - 此处用来接收
     var body: some View {
@@ -77,5 +96,23 @@ struct AvatarButtonView: View {
                 .resizable() // 可调整尺寸
                 .frame(width: kButtonWidth, height: kButtonWidth) // 尺寸
         }
+    }
+}
+
+// MARK: - 关闭按钮
+struct QCDismissButton: View {
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Image(systemName: "xmark")
+                    .frame(width: 36, height: 36)
+                    .foregroundColor(.white)
+                    .background(Color.black)
+                    .clipShape(Circle())
+            }
+            Spacer()
+        }
+        .offset(x: -16, y: 16)
     }
 }

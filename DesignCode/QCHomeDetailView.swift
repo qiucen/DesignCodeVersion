@@ -12,68 +12,85 @@ import SwiftUI
 struct QCHomeDetailView: View {
     @Binding var isShowProfile: Bool
     @State var isShowUpdates = false
+    @Binding var isShowContent: Bool
     var body: some View {
-        VStack {
-            HStack {
-                Text("观看视频") // 标题文本
-                    .font(.custom(QC_font.extraBold.rawValue, size: 34)) // 自定义字体，不过看不出啥效果
-                Spacer()
-                AvatarButtonView(isShowProfile: $isShowProfile) // 此处传递绑定状态，绑定用于组件之间的通信
-                
-                Button(action: { self.isShowUpdates.toggle() }) { // 创建按钮，点击时改变状态
-                    Image(systemName: "bell")
-                        .renderingMode(.original)
-                        .font(.system(size: 16, weight: .medium))
-                        .frame(width: 36, height: 36)
-                        .background(Color.white)
-                        .clipShape(Circle())
-                        .modifier(QCShadow(
-                            shadowOpacity1: 0.1, shadowRadius1: 1, // 第一重投影
-                            shadowOpacity2: 0.2, shadowRadius2: 10)) // 第二重投影
-                }
-                .sheet(isPresented: $isShowUpdates) { // Modal 出一个页面，就是 present
-                    QCUpdatesListView()
-                }
-                
-            }
-            .padding(.horizontal) // 水平填充
-            .padding(.leading, 14) // 单独设置左边填充
-            .padding(.top, 30) // 顶部填充
-            
-            // MARK: - 文字 + 圆环视图
-            ScrollView(.horizontal, showsIndicators: false) {
-                QCWatchRingsView()
-                    .padding(.horizontal, 30)
-                    .padding(.bottom, 30)
-            }
-            
-            // MARK: - ScrollView
-            ScrollView(.horizontal, showsIndicators: false) { // 创建使用 ScrollView
-                HStack(spacing: 20) { // 如果要水平滑动，需要将内容放进 HStack 中
-                    ForEach(sectionData) { item in // 循环填充
-                        GeometryReader { geo in // 滑动时数据动态监测器
-                            SectionView(section: item) // 填充数据
-                                .rotation3DEffect( // 设置 3d 动画效果
-                                    .degrees(Double(geo.frame(in: .global).minX - 30) / -20),
-                                    // 1. 这是横向滚动，所以需要 minX，如果纵向，就用 minY，30 是初始值，需要减掉，
-                                    //    除以倍数是为了让动画效果更平滑
-                                    axis: (x: 0, y: 10, z: 0)) // 固定角度在 y 轴上
-                        }
+        ScrollView {
+            VStack {
+                HStack {
+                    Text("观看视频") // 标题文本
+                        .font(.custom(QC_font.extraBold.rawValue, size: 34)) // 自定义字体，不过看不出啥效果
+                    Spacer()
+                    AvatarButtonView(isShowProfile: $isShowProfile) // 此处传递绑定状态，绑定用于组件之间的通信
+                    
+                    Button(action: { self.isShowUpdates.toggle() }) { // 创建按钮，点击时改变状态
+                        Image(systemName: "bell")
+                            .renderingMode(.original)
+                            .font(.system(size: 16, weight: .medium))
+                            .frame(width: 36, height: 36)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .modifier(QCShadow(
+                                shadowOpacity1: 0.1, shadowRadius1: 1, // 第一重投影
+                                shadowOpacity2: 0.2, shadowRadius2: 10)) // 第二重投影
                     }
-                    .frame(width: 275, height: 275) // 此处需要重新设置卡片的 frame
+                    .sheet(isPresented: $isShowUpdates) { // Modal 出一个页面，就是 present
+                        QCUpdatesListView()
+                    }
+                    
                 }
-                .padding(30)
-                .padding(.bottom, 30)
+                .padding(.horizontal) // 水平填充
+                .padding(.leading, 14) // 单独设置左边填充
+                .padding(.top, 30) // 顶部填充
+                
+                // MARK: - 文字 + 圆环视图
+                ScrollView(.horizontal, showsIndicators: false) {
+                    QCWatchRingsView()
+                        .padding(.horizontal, 30)
+                        .padding(.bottom, 30)
+                        .onTapGesture { // 点击手势 - 传递绑定状态，改变视图
+                            self.isShowContent = true
+                    }
+                }
+                
+                // MARK: - ScrollView
+                ScrollView(.horizontal, showsIndicators: false) { // 创建使用 ScrollView
+                    HStack(spacing: 20) { // 如果要水平滑动，需要将内容放进 HStack 中
+                        ForEach(sectionData) { item in // 循环填充
+                            GeometryReader { geo in // 滑动时数据动态监测器
+                                SectionView(section: item) // 填充数据
+                                    .rotation3DEffect( // 设置 3d 动画效果
+                                        .degrees(Double(geo.frame(in: .global).minX - 30) / -20),
+                                        // 1. 这是横向滚动，所以需要 minX，如果纵向，就用 minY，30 是初始值，需要减掉，
+                                        //    除以倍数是为了让动画效果更平滑
+                                        axis: (x: 0, y: 10, z: 0)) // 固定角度在 y 轴上
+                            }
+                        }
+                        .frame(width: 275, height: 275) // 此处需要重新设置卡片的 frame
+                    }
+                    .padding(30)
+                    .padding(.bottom, 30)
+                }
+                .offset(y: -30)
+                
+                HStack { // 课程标题 View
+                    Text("课程")
+                        .font(.title).bold()
+                    Spacer()
+                }
+                .padding(.leading, 30)
+                .offset(y: -60)
+                
+                SectionView(section: sectionData[3], frameWidthAndHeight: kScreenRect.width - 60)
+                    .offset(y: -60)
+                Spacer()
             }
-            
-            Spacer()
         }
     }
 }
 
 struct QCHomeDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        QCHomeDetailView(isShowProfile: .constant(false)) // 这里的预览视图传递 .constant(false)
+        QCHomeDetailView(isShowProfile: .constant(false), isShowContent: .constant(false)) // 这里的预览视图传递 .constant(false)
                                                           // 是因为，没有可以传递的绑定值，所以传默认值
     }
 }
@@ -81,6 +98,7 @@ struct QCHomeDetailView_Previews: PreviewProvider {
 // MARK: - 单张课程卡片视图
 struct SectionView: View {
     var section: SectionModel // 数据模型
+    var frameWidthAndHeight: CGFloat = 275
     var body: some View {
         VStack {
             HStack(alignment: .top) {
@@ -101,7 +119,7 @@ struct SectionView: View {
         }
         .padding(.top, 20)
         .padding(.horizontal, 20)
-        .frame(width: 275, height: 275)
+        .frame(width: frameWidthAndHeight, height: frameWidthAndHeight)
         .background(section.color)
         .cornerRadius(30)
         .shadow(color: section.color.opacity(0.3), radius: 20, x: 0, y: 20)
