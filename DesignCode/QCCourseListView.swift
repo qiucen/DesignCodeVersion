@@ -9,29 +9,42 @@
 import SwiftUI
 
 struct QCCourseListView: View {
-    @State var isShow = false
-    @State var isShow1 = false
+    
     @State var courses = courseData
+    @State var isActive = false
+    
     var body: some View {
-        ScrollView { // 父视图
-            Text("课程").font(.title).bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 30)
-                .padding(.top, 30)
-            VStack(spacing: 30) {
-                ForEach(courseData.indices, id: \.self) { index in
-                    GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
-                        QCCourseView(isShow: self.$courses[index].isShow, course: self.courses[index])
-                            .offset(y: self.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
-                        // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
-                        // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+        ZStack { // 父视图
+            Color.black.opacity(isActive ? 0.5 : 0) // 设置背景颜色
+                .animation(.linear) // 设置线性动画
+                .edgesIgnoringSafeArea(.all) // 忽略安全区域
+            ScrollView {
+                Text("课程").font(.title).bold()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 30)
+                    .padding(.top, 30)
+                    .blur(radius: isActive ? 20 : 0) // 设置文字模糊
+                VStack(spacing: 30) {
+                    ForEach(courseData.indices, id: \.self) { index in
+                        GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
+                            QCCourseView(isShow: self.$courses[index].isShow,
+                                         course: self.courses[index],
+                                         isActive: self.$isActive)
+                                .offset(y: self.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
+                            // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
+                            // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                        }
+                            .frame(height: 280) // 设置高度
+                            .frame(maxWidth: self.courses[index].isShow ? .infinity : kScreenRect.width - 60) // 设置宽度
+                            .zIndex(self.courses[index].isShow ? 1 : 0) // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
+                                                                        // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
                     }
-                        .frame(height: 280) // 设置高度
-                        .frame(maxWidth: self.courses[index].isShow ? .infinity : kScreenRect.width - 60)
-                } // 设置宽度
+                }
+                .frame(width: kScreenRect.width) // 设置宽度
+                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             }
-            .frame(width: kScreenRect.width) // 设置宽度
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+            .statusBar(hidden: isActive ? true : false) // 隐藏状态栏
+            .animation(.linear) // 设置线性动画
         }
     }
 }
@@ -45,7 +58,8 @@ struct QCCourseListView_Previews: PreviewProvider {
 // MARK: - 课程卡片视图
 struct QCCourseView: View {
     @Binding var isShow: Bool // 绑定状态
-    var course: QCCourse
+    var course: QCCourse // 课程
+    @Binding var isActive: Bool // 是否处于活跃状态
     var body: some View {
         ZStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 30) { // 文本父容器
@@ -98,11 +112,12 @@ struct QCCourseView: View {
             .padding(isShow ? 30 : 20) // 设置全屏幕是的填充边距
             .padding(.top, isShow ? 30 : 0) // 设置全屏幕是的填充边距
             .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? 460 : 290) // 卡片父容器尺寸
-            .background(Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)))
+                .background(Color(course.color))
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)).opacity(0.3), radius: 30, x: 0, y: 30)
             .onTapGesture {
                 self.isShow.toggle()
+                self.isActive.toggle()
             }
         }
         .frame(height: isShow ? kScreenRect.height : 280)
