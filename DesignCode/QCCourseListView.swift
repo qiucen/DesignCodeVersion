@@ -47,8 +47,9 @@ struct QCCourseListView: View {
                         }
                             .frame(height: 280) // 设置高度
                             .frame(maxWidth: self.courses[index].isShow ? .infinity : kScreenRect.width - 60) // 设置宽度
-                            .zIndex(self.courses[index].isShow ? 1 : 0) // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
-                                                                        // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
+                            .zIndex(self.courses[index].isShow ? 1 : 0)
+                        // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
+                        // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
                     }
                 }
                 .frame(width: kScreenRect.width) // 设置宽度
@@ -79,19 +80,21 @@ struct QCCourseView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 30) { // 文本父容器
-                Text("春天，十个海子").font(.title)
-                Text("春天， 十个海子全都复活\n在光明的景色中\n嘲笑这一野蛮而悲伤的海子\n你这么长久地沉睡到底是为了什么？")
-                Text("春天， 十个海子低低地怒吼\n围着你和我跳舞、唱歌\n扯乱你的黑头发， 骑上你飞奔而去， 尘土飞扬\n你被劈开的疼痛在大地弥漫")
-                Text("在春天， 野蛮而复仇的海子\n就剩这一个， 最后一个\n这是黑夜的儿子， 沉浸于冬天， 倾心死亡\n不能自拔， 热爱着空虚而寒冷的乡村")
-                Text("那里的谷物高高堆起， 遮住了窗子\n它们一半用于一家六口人的嘴， 吃和胃\n一半用于农业， 他们自己繁殖\n大风从东吹到西， 从北刮到南， 无视黑夜和黎明\n你所说的曙光究竟是什么意思")
+                Text("春天，十个海子").font(.title).bold()
+                Text("\n春天，十个海子全都复活\n在光明的景色中\n嘲笑这一野蛮而悲伤的海子\n你这么长久地沉睡到底是为了什么？\n\n春天，十个海子低低地怒吼\n围着你和我跳舞、唱歌\n扯乱你的黑头发，骑上你飞奔而去，尘土飞扬\n你被劈开的疼痛在大地弥漫\n\n在春天，野蛮而复仇的海子\n就剩这一个，最后一个\n这是黑夜的儿子，沉浸于冬天，倾心死亡\n不能自拔， 热爱着空虚而寒冷的乡村\n\n那里的谷物高高堆起，遮住了窗子\n它们一半用于一家六口人的嘴，吃和胃\n一半用于农业，他们自己繁殖\n大风从东吹到西，从北刮到南，无视黑夜和黎明\n你所说的曙光究竟是什么意思\n\n\n\n\n\n\n\n")
+                    // 搞不清楚这里为什么需要加上这么多换行符，不加这许多换行符就显示不完全
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    //                        .frame(maxHeight: .infinity)
+                    .lineSpacing(6)
             }
-            .padding(50)
+            .padding(30)
             .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? kScreenRect.height : 280, alignment: .top)
             .offset(y: isShow ? 460 : 0)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
             .opacity(isShow ? 1 : 0)
+            
             VStack { // 卡片父容器
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 8) {
@@ -140,11 +143,12 @@ struct QCCourseView: View {
                     self.activeViewSize = value.translation // 拖拽时存储改变的位置大小
                 })
                     .onEnded({ (value) in
-                        if self.activeViewSize.height > 50 { // 拖拽高度大于 50 时，重置状态
+                        if self.activeViewSize.height > 40 { // 拖拽高度大于 40 时，重置状态
                             self.isActive = false
                             self.isShow = false
                             self.isActiveIndex = -1
                         }
+                        print(value)
                         self.activeViewSize = .zero // 结束拖拽时重置
                     })
                 : nil
@@ -157,6 +161,12 @@ struct QCCourseView: View {
                 } else {
                     self.isActiveIndex = -1
                 }
+            }
+            if isShow {
+                QCCourseDetail(course: course, isShow: $isShow, isActive: $isActive, isActiveIndex: $isActiveIndex)
+                    .background(Color.white)
+                    .cornerRadius(30) // 这里渲染背景时，设置边角半径，裁剪一部分
+                    .animation(nil)
             }
         }
         .frame(height: isShow ? kScreenRect.height : 280)
@@ -174,11 +184,12 @@ struct QCCourseView: View {
                 self.activeViewSize = value.translation // 拖拽时存储改变的位置大小
             })
                 .onEnded({ (value) in
-                    if self.activeViewSize.height > 50 { // 拖拽高度大于 50 时，重置状态
+                    if self.activeViewSize.height > 40 { // 拖拽高度大于 50 时，重置状态
                         self.isActive = false
                         self.isShow = false
                         self.isActiveIndex = -1
                     }
+                    print(value)
                     self.activeViewSize = .zero // 结束拖拽时重置
                 })
             : nil
