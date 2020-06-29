@@ -11,12 +11,13 @@ import SwiftUI
 struct QCCourseListView: View {
     
     @State var courses = courseData
-    @State var isActive = false
+    @State var isActive = false // @State：表示可改变的
     @State var isActiveIndex = -1
+    @State var activeViewSize: CGSize = .zero
     
     var body: some View {
         ZStack { // 父视图
-            Color.black.opacity(isActive ? 0.5 : 0) // 设置背景颜色
+            Color.black.opacity(Double(self.activeViewSize.height / 500)) // 通过位置改变设置背景颜色
                 .animation(.linear) // 设置线性动画
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
             ScrollView {
@@ -32,7 +33,8 @@ struct QCCourseListView: View {
                                          course: self.courses[index],
                                          isActive: self.$isActive,
                                          index: index,
-                                         isActiveIndex: self.$isActiveIndex)
+                                         isActiveIndex: self.$isActiveIndex,
+                                         activeViewSize: self.$activeViewSize)
                                 .offset(y: self.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
                                 // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
                                 // -geo.frame(in: .global).minY 代表视图顶部 Y 值
@@ -72,7 +74,7 @@ struct QCCourseView: View {
     @Binding var isActive: Bool // 是否处于活跃状态
     var index: Int // 索引
     @Binding var isActiveIndex: Int // 需要传递的索引
-    
+    @Binding var activeViewSize: CGSize // 初始值位置，绑定状态
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -129,6 +131,24 @@ struct QCCourseView: View {
                 .background(Color(course.color))
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)).opacity(0.3), radius: 30, x: 0, y: 30)
+            .gesture( // 创建拖拽手势
+                // 创建拖动手势生效条件： isShow ? (手势设置) : nil
+                isShow ?
+                DragGesture().onChanged({ (value) in
+                    guard value.translation.height < 300 else { return } // 拖动高度小于 300 时，才可改变位置大小
+                    guard value.translation.height > 0 else { return } // 这里设置高度大于 0 ，是为了防止拖拽放大卡片
+                    self.activeViewSize = value.translation // 拖拽时存储改变的位置大小
+                })
+                    .onEnded({ (value) in
+                        if self.activeViewSize.height > 50 { // 拖拽高度大于 50 时，重置状态
+                            self.isActive = false
+                            self.isShow = false
+                            self.isActiveIndex = -1
+                        }
+                        self.activeViewSize = .zero // 结束拖拽时重置
+                    })
+                : nil
+            )
             .onTapGesture {
                 self.isShow.toggle()
                 self.isActive.toggle()
@@ -140,7 +160,29 @@ struct QCCourseView: View {
             }
         }
         .frame(height: isShow ? kScreenRect.height : 280)
+        .scaleEffect(1 - self.activeViewSize.height / 1000) // 设置缩放效果
+        .rotation3DEffect(.degrees(Double(self.activeViewSize.height / 10)), axis: (x: 0, y: 10, z: 0)) // 设置 3d 效果
+        .hueRotation(.degrees(Double(self.activeViewSize.height))) // hueRotation 改变色调
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+            // 下面这里重复创建拖拽手势，是为了在拖动文字时也可以进行缩放以及改变状态的效果
+        .gesture( // 创建拖拽手势
+            // 创建拖动手势生效条件： isShow ? (手势设置) : nil
+            isShow ?
+            DragGesture().onChanged({ (value) in
+                guard value.translation.height < 300 else { return } // 拖动高度小于 300 时，才可改变位置大小
+                guard value.translation.height > 0 else { return } // 这里设置高度大于 0 ，是为了防止拖拽放大卡片
+                self.activeViewSize = value.translation // 拖拽时存储改变的位置大小
+            })
+                .onEnded({ (value) in
+                    if self.activeViewSize.height > 50 { // 拖拽高度大于 50 时，重置状态
+                        self.isActive = false
+                        self.isShow = false
+                        self.isActiveIndex = -1
+                    }
+                    self.activeViewSize = .zero // 结束拖拽时重置
+                })
+            : nil
+        )
         .edgesIgnoringSafeArea(.all)
     }
 }
