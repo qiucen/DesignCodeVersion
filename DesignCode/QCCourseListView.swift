@@ -9,9 +9,21 @@
 import SwiftUI
 
 struct QCCourseListView: View {
+    @State var isShow = false
+    @State var isShow1 = false
     var body: some View {
-        VStack {
-            QCCourseView()
+        ScrollView { // 父视图
+            VStack(spacing: 30) {
+                QCCourseView(isShow: $isShow)
+                GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
+                    QCCourseView(isShow: self.$isShow1)
+                        .offset(y: self.isShow1 ? -geo.frame(in: .global).minY : 0) // 设置偏移，偏移量为此张卡片的顶部 Y 值
+                                                // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                }
+                .frame(height: isShow1 ? kScreenRect.height : 280) // 设置高度
+                .frame(maxWidth: isShow1 ? .infinity : kScreenRect.width - 60) // 设置宽度
+            }
+            .frame(width: kScreenRect.width) // 设置宽度
         }
     }
 }
@@ -24,7 +36,7 @@ struct QCCourseListView_Previews: PreviewProvider {
 
 // MARK: - 课程卡片视图
 struct QCCourseView: View {
-    @State var isShow = false
+    @Binding var isShow: Bool // 绑定状态
     var body: some View {
         ZStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 30) { // 文本父容器
