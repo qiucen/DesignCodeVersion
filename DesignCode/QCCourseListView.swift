@@ -11,19 +11,27 @@ import SwiftUI
 struct QCCourseListView: View {
     @State var isShow = false
     @State var isShow1 = false
+    @State var courses = courseData
     var body: some View {
         ScrollView { // 父视图
+            Text("课程").font(.title).bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 30)
+                .padding(.top, 30)
             VStack(spacing: 30) {
-                QCCourseView(isShow: $isShow)
-                GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
-                    QCCourseView(isShow: self.$isShow1)
-                        .offset(y: self.isShow1 ? -geo.frame(in: .global).minY : 0) // 设置偏移，偏移量为此张卡片的顶部 Y 值
-                                                // -geo.frame(in: .global).minY 代表视图顶部 Y 值
-                }
-                .frame(height: isShow1 ? kScreenRect.height : 280) // 设置高度
-                .frame(maxWidth: isShow1 ? .infinity : kScreenRect.width - 60) // 设置宽度
+                ForEach(courseData.indices, id: \.self) { index in
+                    GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
+                        QCCourseView(isShow: self.$courses[index].isShow, course: self.courses[index])
+                            .offset(y: self.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
+                        // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
+                        // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                    }
+                        .frame(height: 280) // 设置高度
+                        .frame(maxWidth: self.courses[index].isShow ? .infinity : kScreenRect.width - 60)
+                } // 设置宽度
             }
             .frame(width: kScreenRect.width) // 设置宽度
+            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         }
     }
 }
@@ -37,6 +45,7 @@ struct QCCourseListView_Previews: PreviewProvider {
 // MARK: - 课程卡片视图
 struct QCCourseView: View {
     @Binding var isShow: Bool // 绑定状态
+    var course: QCCourse
     var body: some View {
         ZStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 30) { // 文本父容器
@@ -56,15 +65,15 @@ struct QCCourseView: View {
             VStack { // 卡片父容器
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("领先的 SwiftUI")
+                        Text(course.title)
                             .font(.system(size: 24, weight: .bold))
                             .foregroundColor(.white)
-                        Text("20 节课")
+                        Text(course.subtitle)
                             .foregroundColor(Color.white.opacity(0.7))
                     }
                     Spacer()
                     ZStack {
-                        Image(uiImage: #imageLiteral(resourceName: "Logo"))
+                        Image(uiImage: course.logo)
                             .resizable()
                             .frame(width: 36, height: 36)
                             .opacity(isShow ? 0 : 1) // 不透明度：0 显示，1 隐藏
@@ -80,7 +89,7 @@ struct QCCourseView: View {
                     }
                 }
                 Spacer()
-                Image(uiImage: #imageLiteral(resourceName: "Illustration2"))
+                Image(uiImage: course.image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity)
@@ -96,7 +105,27 @@ struct QCCourseView: View {
                 self.isShow.toggle()
             }
         }
+        .frame(height: isShow ? kScreenRect.height : 280)
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         .edgesIgnoringSafeArea(.all)
     }
 }
+
+
+// MARK: - 数据模型
+struct QCCourse: Identifiable {
+    var id = UUID() // id
+    var title: String // 标题
+    var subtitle: String // 副标题
+    var image: UIImage // 图片
+    var logo: UIImage // logo
+    var color: UIColor // 颜色
+    var isShow: Bool // 是否显示
+}
+
+// MARK:  - 样本数据
+var courseData = [
+    QCCourse(title: "SwiftUI 中的原型设计", subtitle: "18 节课", image: #imageLiteral(resourceName: "Illustration2"), logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), isShow: false),
+    QCCourse(title: "领先的 SwiftUI", subtitle: "20 节课", image: #imageLiteral(resourceName: "Illustration4"), logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1), isShow: false),
+    QCCourse(title: "开发者 UI设计", subtitle: "18 节课", image: #imageLiteral(resourceName: "Illustration1"), logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), isShow: false)
+]
