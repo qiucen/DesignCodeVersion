@@ -12,6 +12,7 @@ struct QCCourseListView: View {
     
     @State var courses = courseData
     @State var isActive = false
+    @State var isActiveIndex = -1
     
     var body: some View {
         ZStack { // 父视图
@@ -29,10 +30,18 @@ struct QCCourseListView: View {
                         GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
                             QCCourseView(isShow: self.$courses[index].isShow,
                                          course: self.courses[index],
-                                         isActive: self.$isActive)
+                                         isActive: self.$isActive,
+                                         index: index,
+                                         isActiveIndex: self.$isActiveIndex)
                                 .offset(y: self.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
-                            // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
-                            // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                                // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
+                                // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                                .opacity(self.isActiveIndex != index && self.isActive ? 0 : 1)
+                                // 如果当前卡片不是选中状态，那么不透明度为0(透明状态，否则为1)
+                                .scaleEffect(self.isActiveIndex != index && self.isActive ? 0.5 : 1)
+                                // 选中时，当前卡片不缩放；非选中卡片进行缩放
+                                .offset(x: self.isActiveIndex != index && self.isActive ? kScreenRect.width : 0)
+                                // 通过设置偏移来增加动画
                         }
                             .frame(height: 280) // 设置高度
                             .frame(maxWidth: self.courses[index].isShow ? .infinity : kScreenRect.width - 60) // 设置宽度
@@ -57,9 +66,14 @@ struct QCCourseListView_Previews: PreviewProvider {
 
 // MARK: - 课程卡片视图
 struct QCCourseView: View {
+    
     @Binding var isShow: Bool // 绑定状态
     var course: QCCourse // 课程
     @Binding var isActive: Bool // 是否处于活跃状态
+    var index: Int // 索引
+    @Binding var isActiveIndex: Int // 需要传递的索引
+    
+    
     var body: some View {
         ZStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 30) { // 文本父容器
@@ -118,6 +132,11 @@ struct QCCourseView: View {
             .onTapGesture {
                 self.isShow.toggle()
                 self.isActive.toggle()
+                if self.isShow {
+                    self.isActiveIndex = self.index // 这里回传索引到绑定的 isActiveIndex
+                } else {
+                    self.isActiveIndex = -1
+                }
             }
         }
         .frame(height: isShow ? kScreenRect.height : 280)
