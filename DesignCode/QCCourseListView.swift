@@ -10,7 +10,7 @@ import SwiftUI
 
 struct QCCourseListView: View {
     
-    @State var courses = courseData
+    @ObservedObject var store = QCCourseStore() // 从 contentful 获取到的数据
     @State var isActive = false // @State：表示可改变的
     @State var isActiveIndex = -1
     @State var activeViewSize: CGSize = .zero
@@ -27,15 +27,15 @@ struct QCCourseListView: View {
                     .padding(.top, 30)
                     .blur(radius: isActive ? 20 : 0) // 设置文字模糊
                 VStack(spacing: 30) {
-                    ForEach(courseData.indices, id: \.self) { index in
+                    ForEach(store.courses.indices, id: \.self) { index in
                         GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
-                            QCCourseView(isShow: self.$courses[index].isShow,
-                                         course: self.courses[index],
+                            QCCourseView(isShow: self.$store.courses[index].isShow,
+                                         course: self.store.courses[index],
                                          isActive: self.$isActive,
                                          index: index,
                                          isActiveIndex: self.$isActiveIndex,
                                          activeViewSize: self.$activeViewSize)
-                                .offset(y: self.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
+                                .offset(y: self.store.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
                                 // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
                                 // -geo.frame(in: .global).minY 代表视图顶部 Y 值
                                 .opacity(self.isActiveIndex != index && self.isActive ? 0 : 1)
@@ -46,8 +46,8 @@ struct QCCourseListView: View {
                                 // 通过设置偏移来增加动画
                         }
                             .frame(height: 280) // 设置高度
-                            .frame(maxWidth: self.courses[index].isShow ? .infinity : kScreenRect.width - 60) // 设置宽度
-                            .zIndex(self.courses[index].isShow ? 1 : 0)
+                            .frame(maxWidth: self.store.courses[index].isShow ? .infinity : kScreenRect.width - 60) // 设置宽度
+                            .zIndex(self.store.courses[index].isShow ? 1 : 0)
                         // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
                         // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
                     }

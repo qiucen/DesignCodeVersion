@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,8 @@
 		BB7FC74624A49FBB008FD8F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74424A49FBB008FD8F8 /* LaunchScreen.storyboard */; };
 		BB7FC74E24A4A0BD008FD8F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */; };
 		BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210A24AB66F700539CC9 /* QCDataStore.swift */; };
+		BBD9210E24AB709300539CC9 /* Contentful in Frameworks */ = {isa = PBXBuildFile; productRef = BBD9210D24AB709300539CC9 /* Contentful */; };
+		BBD9211024AB72A900539CC9 /* QCCourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */; };
 		BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */; };
 		BBF340FE24A8434D0067AAA3 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */; };
 		BBF340FF24A8434D0067AAA3 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */; };
@@ -57,6 +59,7 @@
 		BB7FC74724A49FBB008FD8F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBD9210A24AB66F700539CC9 /* QCDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCDataStore.swift; sourceTree = "<group>"; };
+		BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseStore.swift; sourceTree = "<group>"; };
 		BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCModifiers.swift; sourceTree = "<group>"; };
 		BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.ttf"; sourceTree = "<group>"; };
 		BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.ttf"; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBD9210E24AB709300539CC9 /* Contentful in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +116,7 @@
 				BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */,
 				BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */,
 				BBF3410A24AA186A0067AAA3 /* QCCourseDetail.swift */,
+				BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */,
 				BB66A17924A61792004F82D4 /* QCMenuView.swift */,
 				BB57D72324A7546A00C3DBA1 /* QCUpdatesListView.swift */,
 				BB57D72524A770FA00C3DBA1 /* QCUpdateDetailView.swift */,
@@ -171,6 +176,9 @@
 			dependencies = (
 			);
 			name = DesignCode;
+			packageProductDependencies = (
+				BBD9210D24AB709300539CC9 /* Contentful */,
+			);
 			productName = DesignCode;
 			productReference = BB7FC73624A49FAF008FD8F8 /* DesignCode.app */;
 			productType = "com.apple.product-type.application";
@@ -200,6 +208,9 @@
 				Base,
 			);
 			mainGroup = BB7FC72D24A49FAF008FD8F8;
+			packageReferences = (
+				BBD9210C24AB709300539CC9 /* XCRemoteSwiftPackageReference "contentful.swift" */,
+			);
 			productRefGroup = BB7FC73724A49FAF008FD8F8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -247,6 +258,7 @@
 				BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */,
 				BBF3410924A87AB50067AAA3 /* QCCourseListView.swift in Sources */,
 				BB7FC73E24A49FAF008FD8F8 /* QCContentView.swift in Sources */,
+				BBD9211024AB72A900539CC9 /* QCCourseStore.swift in Sources */,
 				BB57D72824A778EE00C3DBA1 /* QCUpdateStore.swift in Sources */,
 				BB57D72C24A7B16F00C3DBA1 /* QCRingView.swift in Sources */,
 				BB66A17A24A61792004F82D4 /* QCMenuView.swift in Sources */,
@@ -447,6 +459,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BBD9210C24AB709300539CC9 /* XCRemoteSwiftPackageReference "contentful.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/contentful/contentful.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BBD9210D24AB709300539CC9 /* Contentful */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBD9210C24AB709300539CC9 /* XCRemoteSwiftPackageReference "contentful.swift" */;
+			productName = Contentful;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BB7FC72E24A49FAF008FD8F8 /* Project object */;
 }
