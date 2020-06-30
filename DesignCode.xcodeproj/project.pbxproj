@@ -34,6 +34,8 @@
 		BBF3410724A8434D0067AAA3 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340FD24A8434D0067AAA3 /* WorkSans-Bold.ttf */; };
 		BBF3410924A87AB50067AAA3 /* QCCourseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */; };
 		BBF3410B24AA186A0067AAA3 /* QCCourseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3410A24AA186A0067AAA3 /* QCCourseDetail.swift */; };
+		BBF3410D24AA35F00067AAA3 /* QCData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3410C24AA35F00067AAA3 /* QCData.swift */; };
+		BBF3410F24AA58E40067AAA3 /* QCPostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3410E24AA58E40067AAA3 /* QCPostList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		BBF340FD24A8434D0067AAA3 /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Bold.ttf"; sourceTree = "<group>"; };
 		BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseListView.swift; sourceTree = "<group>"; };
 		BBF3410A24AA186A0067AAA3 /* QCCourseDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseDetail.swift; sourceTree = "<group>"; };
+		BBF3410C24AA35F00067AAA3 /* QCData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCData.swift; sourceTree = "<group>"; };
+		BBF3410E24AA58E40067AAA3 /* QCPostList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCPostList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,8 @@
 				BB57D72324A7546A00C3DBA1 /* QCUpdatesListView.swift */,
 				BB57D72524A770FA00C3DBA1 /* QCUpdateDetailView.swift */,
 				BB57D72724A778EE00C3DBA1 /* QCUpdateStore.swift */,
+				BBF3410C24AA35F00067AAA3 /* QCData.swift */,
+				BBF3410E24AA58E40067AAA3 /* QCPostList.swift */,
 				BB57D72924A7963A00C3DBA1 /* QCTabBarView.swift */,
 				BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */,
 				BB7FC74424A49FBB008FD8F8 /* LaunchScreen.storyboard */,
@@ -229,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB57D72624A770FA00C3DBA1 /* QCUpdateDetailView.swift in Sources */,
+				BBF3410F24AA58E40067AAA3 /* QCPostList.swift in Sources */,
 				BB57D72224A7371C00C3DBA1 /* QCHomeDetailView.swift in Sources */,
 				BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */,
 				BB7FC73A24A49FAF008FD8F8 /* AppDelegate.swift in Sources */,
@@ -241,6 +248,7 @@
 				BB66A17A24A61792004F82D4 /* QCMenuView.swift in Sources */,
 				BBF3410B24AA186A0067AAA3 /* QCCourseDetail.swift in Sources */,
 				BB57D72A24A7963A00C3DBA1 /* QCTabBarView.swift in Sources */,
+				BBF3410D24AA35F00067AAA3 /* QCData.swift in Sources */,
 				BB57D72024A717CD00C3DBA1 /* QCHomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
