@@ -10,21 +10,16 @@ import SwiftUI
 
 struct QCPostList: View {
     
-    @State var posts: [QCPost] = [] // 存储的数组
+    @ObservedObject var store = QCDataStore() // 通过 Combine 绑定了数据，初始化直接就有
     
     var body: some View {
-        List(posts) { post in
-            Text(post.title)
-        }
-        .onAppear {
-            QCApiNetworkTool.shared.networkGetPost([QCPost].self) { (posts, _, error) in
-                if error != nil {
-                    printQCDebug(message: error)
-                    return
-                }
-                self.posts = posts as! [QCPost]
+        List(store.posts) { post in
+            VStack(alignment: .leading, spacing: 8) {
+                Text(post.title).font(.system(.title, design: .serif)).bold()
+                Text(post.body).foregroundColor(.secondary)
             }
         }
+        
     }
 }
 

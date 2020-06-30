@@ -21,6 +21,7 @@
 		BB7FC74324A49FBB008FD8F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74224A49FBB008FD8F8 /* Preview Assets.xcassets */; };
 		BB7FC74624A49FBB008FD8F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74424A49FBB008FD8F8 /* LaunchScreen.storyboard */; };
 		BB7FC74E24A4A0BD008FD8F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */; };
+		BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210A24AB66F700539CC9 /* QCDataStore.swift */; };
 		BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */; };
 		BBF340FE24A8434D0067AAA3 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */; };
 		BBF340FF24A8434D0067AAA3 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */; };
@@ -55,6 +56,7 @@
 		BB7FC74524A49FBB008FD8F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB7FC74724A49FBB008FD8F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BBD9210A24AB66F700539CC9 /* QCDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCDataStore.swift; sourceTree = "<group>"; };
 		BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCModifiers.swift; sourceTree = "<group>"; };
 		BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.ttf"; sourceTree = "<group>"; };
 		BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.ttf"; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				BB57D72524A770FA00C3DBA1 /* QCUpdateDetailView.swift */,
 				BB57D72724A778EE00C3DBA1 /* QCUpdateStore.swift */,
 				BBF3410C24AA35F00067AAA3 /* QCData.swift */,
+				BBD9210A24AB66F700539CC9 /* QCDataStore.swift */,
 				BBF3410E24AA58E40067AAA3 /* QCPostList.swift */,
 				BB57D72924A7963A00C3DBA1 /* QCTabBarView.swift */,
 				BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */,
@@ -241,6 +244,7 @@
 				BB7FC73A24A49FAF008FD8F8 /* AppDelegate.swift in Sources */,
 				BB57D72424A7546A00C3DBA1 /* QCUpdatesListView.swift in Sources */,
 				BB7FC73C24A49FAF008FD8F8 /* SceneDelegate.swift in Sources */,
+				BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */,
 				BBF3410924A87AB50067AAA3 /* QCCourseListView.swift in Sources */,
 				BB7FC73E24A49FAF008FD8F8 /* QCContentView.swift in Sources */,
 				BB57D72824A778EE00C3DBA1 /* QCUpdateStore.swift in Sources */,

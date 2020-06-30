@@ -17,14 +17,14 @@ struct QCPost: Codable, Identifiable {
 
 
 // MARK: - 网络工具
-class QCApiNetworkTool {
+class QCNetworkTool {
     
     /// `完成回调`
     typealias QCCompletionHandler = (Any?, URLResponse?, Error?) -> Void
     
     /// `单例`
-    static let shared: QCApiNetworkTool = {
-        let tool = QCApiNetworkTool()
+    static let shared: QCNetworkTool = {
+        let tool = QCNetworkTool()
         return tool
     }()
     
@@ -54,7 +54,7 @@ class QCApiNetworkTool {
     /// - Parameter finished: 回调
     func networkGetPost<T>(_ type: T.Type, finished: @escaping QCCompletionHandler) where T: Decodable {
         guard let url = URL(string: urlStr) else { return }
-        QCApiNetworkTool.shared.network(url: url, type) { (data, response, error) in
+        QCNetworkTool.shared.network(url: url, type) { (data, response, error) in
             if error != nil { print("网络错误\(String(describing: error))"); return }
             DispatchQueue.main.async {
 //                printQCDebug(message: data)
