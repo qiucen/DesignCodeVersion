@@ -66,10 +66,7 @@ struct QCMenuView: View {
             }
                 .frame(maxWidth: .infinity) // 最大宽度为屏幕宽度 - 注意这里一定要用 maxWidth:
                 .frame(height: kMenuHeight) // 整个菜单控件的高度
-                .background(LinearGradient( // 背景颜色，设置渐变颜色：
-                        gradient: Gradient(colors: [Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)), Color(#colorLiteral(red: 0.8705882353, green: 0.8941176471, blue: 0.9450980392, alpha: 1))]), // LinearGradient,线性渐变，传入颜色数组
-                        startPoint: .top, // 开始方向
-                        endPoint: .bottom)) // 结束方向
+                .background(QCBlurView(style: .systemThinMaterial)) // 背景设置模糊视图
                 .clipShape(RoundedRectangle(cornerRadius: kRadius, style: .continuous)) // 圆角裁剪
                 .shadow(color: Color.black.opacity(0.2), radius: kShadowRadius, x: 0, y: kShadowRadius)
                 // 自定义阴影，向下推20个点，看起来更立体

@@ -209,7 +209,8 @@ struct TitleView: View {
                 Spacer()
             }
             .padding()
-            Image("Background")
+            Image("Background") // 在 Assets.xcassets 目录下，添加`暗黑模式`下的 背景图片
+                                // 就可以自动适应 暗黑模式
             Spacer()
         }
     }
@@ -242,7 +243,7 @@ struct BottomCardView: View {
                         .lineSpacing(4) // 行间距
                 }
                 .padding(20) // 填充
-                .background(Color.white) // 背景色
+                .background(Color("icons")) // 背景色
                 .cornerRadius(20) // 拐角半径
                 .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 10) // 阴影
             }

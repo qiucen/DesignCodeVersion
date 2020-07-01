@@ -24,10 +24,11 @@ struct QCHomeDetailView: View {
                     
                     Button(action: { self.isShowUpdates.toggle() }) { // 创建按钮，点击时改变状态
                         Image(systemName: "bell")
-                            .renderingMode(.original)
+//                            .renderingMode(.original)
+                            .foregroundColor(Color.primary) // 设置文字颜色 .primary 适合自适应暗黑模式文字颜色
                             .font(.system(size: 16, weight: .medium))
                             .frame(width: 36, height: 36)
-                            .background(Color.white)
+                            .background(Color("icons"))
                             .clipShape(Circle())
                             .modifier(QCShadow(
                                 shadowOpacity1: 0.1, shadowRadius1: 1, // 第一重投影
@@ -84,6 +85,7 @@ struct QCHomeDetailView: View {
                     .offset(y: -60)
                 Spacer()
             }
+            .frame(width: kScreenRect.width) // 设置屏幕宽度，以保证来回切换不会有动画效果
         }
     }
 }
@@ -165,7 +167,7 @@ struct QCWatchRingsView: View {
                 }
             }
             .padding(8)
-            .background(Color.white)
+            .background(Color("icons")) // 设置 暗黑模式 下的背景颜色
             .cornerRadius(20)
                 .modifier(QCShadow( // 自定义阴影修饰符
                     shadowOpacity1: 0.1, shadowRadius1: 12,
@@ -175,7 +177,7 @@ struct QCWatchRingsView: View {
                 QCRingView(color1: #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1), color2: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1), ringWidth: 44, percent: 56, isShow: .constant(true))
             }
             .padding(8)
-            .background(Color.white)
+            .background(Color("icons"))
             .cornerRadius(20)
                 .modifier(QCShadow( // 自定义阴影修饰符
                     shadowOpacity1: 0.1, shadowRadius1: 12,
@@ -185,7 +187,7 @@ struct QCWatchRingsView: View {
                 QCRingView(color1: #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1), color2: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1), ringWidth: 32, percent: 32, isShow: .constant(true))
             }
             .padding(8)
-            .background(Color.white)
+            .background(Color("icons"))
             .cornerRadius(20)
                 .modifier(QCShadow( // 自定义阴影修饰符
                     shadowOpacity1: 0.1, shadowRadius1: 12,

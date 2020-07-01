@@ -25,18 +25,18 @@ struct QCHomeView: View {
     
     var body: some View {
         ZStack {
-            Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+            Color("background")
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
             
             QCHomeDetailView(isShowProfile: $isShowProfile, isShowContent: $isShowContent) // 提取视图到一个单独的文件
                 .padding(.top, 44) // 手动设置顶部填充状态栏高度
                 .background( // 设置背景视图：渐变 + 背景颜色
-                    VStack {
-                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)), Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))]), startPoint: .top, endPoint: .bottom)
+                    VStack { // 在设置渐变的地方，设置暗黑模式的背景颜色
+                        LinearGradient(gradient: Gradient(colors: [Color("background2"), Color("background")]), startPoint: .top, endPoint: .bottom)
                             .frame(height: 200)
                         Spacer()
                     }
-                    .background(Color.white)
+                    .background(Color("background"))
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 设置圆角裁剪
                 .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20) // 设置阴影
@@ -67,7 +67,7 @@ struct QCHomeView: View {
                         })
             )
             if isShowContent { // 改变状态，显示视图
-                Color.white.edgesIgnoringSafeArea(.all)
+                QCBlurView(style: .systemMaterial).edgesIgnoringSafeArea(.all)
                 QCContentView()
                 QCDismissButton() // 堆叠顺序： 关闭按钮应该在内容视图之上，否则不能交互
                     .transition(.move(edge: .top))
@@ -80,9 +80,11 @@ struct QCHomeView: View {
     }
 }
 
+// MARK: - 预览
 struct QCHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        QCHomeView()
+        QCHomeView().environment(\.colorScheme, .dark) // 设置 `暗黑模式` 下预览
+            .environment(\.sizeCategory, .extraExtraLarge) // 设置 `超超大字体预览`
     }
 }
 

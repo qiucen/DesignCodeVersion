@@ -91,7 +91,7 @@ struct QCCourseView: View {
             .padding(30)
             .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? kScreenRect.height : 280, alignment: .top)
             .offset(y: isShow ? 460 : 0)
-            .background(Color.white)
+            .background(Color("icons"))
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
             .opacity(isShow ? 1 : 0)
@@ -165,7 +165,7 @@ struct QCCourseView: View {
             }
             if isShow {
                 QCCourseDetail(course: course, isShow: $isShow, isActive: $isActive, isActiveIndex: $isActiveIndex)
-                    .background(Color.white)
+                    .background(Color("icons"))
                     .cornerRadius(30) // 这里渲染背景时，设置边角半径，裁剪一部分
                     .animation(nil)
             }

@@ -12,10 +12,10 @@ struct QCTabBarView: View {
     var body: some View {
         TabView {
             QCHomeView().tabItem {
-                Image(systemName: "play.circle.fill")
+                Image(systemName: "play.circle.fill") // tabbar 图片
                 Text("首页")
             }
-            QCContentView().tabItem {
+            QCCourseListView().tabItem {
                 Image(systemName: "rectangle.stack.fill")
                 Text("证书")
             }
