@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct QCCourseListView: View {
     
     @ObservedObject var store = QCCourseStore() // 从 contentful 获取到的数据

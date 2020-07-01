@@ -21,8 +21,9 @@
 		BB7FC74324A49FBB008FD8F8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74224A49FBB008FD8F8 /* Preview Assets.xcassets */; };
 		BB7FC74624A49FBB008FD8F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74424A49FBB008FD8F8 /* LaunchScreen.storyboard */; };
 		BB7FC74E24A4A0BD008FD8F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */; };
+		BB99F48924AC2CB40077D7FC /* Contentful in Frameworks */ = {isa = PBXBuildFile; productRef = BB99F48824AC2CB40077D7FC /* Contentful */; };
+		BB99F48C24AC2EC90077D7FC /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BB99F48B24AC2EC90077D7FC /* SDWebImageSwiftUI */; };
 		BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210A24AB66F700539CC9 /* QCDataStore.swift */; };
-		BBD9210E24AB709300539CC9 /* Contentful in Frameworks */ = {isa = PBXBuildFile; productRef = BBD9210D24AB709300539CC9 /* Contentful */; };
 		BBD9211024AB72A900539CC9 /* QCCourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */; };
 		BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */; };
 		BBF340FE24A8434D0067AAA3 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */; };
@@ -60,6 +61,7 @@
 		BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBD9210A24AB66F700539CC9 /* QCDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCDataStore.swift; sourceTree = "<group>"; };
 		BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseStore.swift; sourceTree = "<group>"; };
+		BBD9213324AB9D3E00539CC9 /* SDWebImageSwiftUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SDWebImageSwiftUI; path = ../../../../SDWebImageSwiftUI; sourceTree = "<group>"; };
 		BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCModifiers.swift; sourceTree = "<group>"; };
 		BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.ttf"; sourceTree = "<group>"; };
 		BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.ttf"; sourceTree = "<group>"; };
@@ -82,7 +84,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBD9210E24AB709300539CC9 /* Contentful in Frameworks */,
+				BB99F48C24AC2EC90077D7FC /* SDWebImageSwiftUI in Frameworks */,
+				BB99F48924AC2CB40077D7FC /* Contentful in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +111,7 @@
 		BB7FC73824A49FAF008FD8F8 /* DesignCode */ = {
 			isa = PBXGroup;
 			children = (
+				BBD9213324AB9D3E00539CC9 /* SDWebImageSwiftUI */,
 				BB7FC73924A49FAF008FD8F8 /* AppDelegate.swift */,
 				BB7FC73B24A49FAF008FD8F8 /* SceneDelegate.swift */,
 				BB7FC73D24A49FAF008FD8F8 /* QCContentView.swift */,
@@ -177,7 +181,8 @@
 			);
 			name = DesignCode;
 			packageProductDependencies = (
-				BBD9210D24AB709300539CC9 /* Contentful */,
+				BB99F48824AC2CB40077D7FC /* Contentful */,
+				BB99F48B24AC2EC90077D7FC /* SDWebImageSwiftUI */,
 			);
 			productName = DesignCode;
 			productReference = BB7FC73624A49FAF008FD8F8 /* DesignCode.app */;
@@ -209,7 +214,8 @@
 			);
 			mainGroup = BB7FC72D24A49FAF008FD8F8;
 			packageReferences = (
-				BBD9210C24AB709300539CC9 /* XCRemoteSwiftPackageReference "contentful.swift" */,
+				BB99F48724AC2CB40077D7FC /* XCRemoteSwiftPackageReference "contentful.swift" */,
+				BB99F48A24AC2EC90077D7FC /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = BB7FC73724A49FAF008FD8F8 /* Products */;
 			projectDirPath = "";
@@ -402,7 +408,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"DesignCode/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "DesignCode/Preview\\ Content DesignCode/Preview\\ Content/Preview\\ Assets.xcassets";
 				DEVELOPMENT_TEAM = 9DPNLN6Q8H;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = DesignCode/Info.plist;
@@ -422,7 +428,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"DesignCode/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "DesignCode/Preview\\ Content DesignCode/Preview\\ Content/Preview\\ Assets.xcassets";
 				DEVELOPMENT_TEAM = 9DPNLN6Q8H;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = DesignCode/Info.plist;
@@ -461,7 +467,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BBD9210C24AB709300539CC9 /* XCRemoteSwiftPackageReference "contentful.swift" */ = {
+		BB99F48724AC2CB40077D7FC /* XCRemoteSwiftPackageReference "contentful.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/contentful/contentful.swift.git";
 			requirement = {
@@ -469,13 +475,26 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		BB99F48A24AC2EC90077D7FC /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BBD9210D24AB709300539CC9 /* Contentful */ = {
+		BB99F48824AC2CB40077D7FC /* Contentful */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BBD9210C24AB709300539CC9 /* XCRemoteSwiftPackageReference "contentful.swift" */;
+			package = BB99F48724AC2CB40077D7FC /* XCRemoteSwiftPackageReference "contentful.swift" */;
 			productName = Contentful;
+		};
+		BB99F48B24AC2EC90077D7FC /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB99F48A24AC2EC90077D7FC /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
