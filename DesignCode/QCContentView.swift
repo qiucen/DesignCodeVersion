@@ -252,7 +252,7 @@ struct BottomCardView: View {
             .padding(.top, 8) // 顶部 8 个点
             .padding(.horizontal, 20) // 左右各 20 个点
             .frame(maxWidth: .infinity) // 设置最大宽度
-            .background(Color.white)
+            .background(QCBlurView(style: .systemThinMaterial)) // 自定义背景模糊
             // 如果要设置填充，在添加背景颜色之前，应该先设置填充，否则背景色不会设置到填充部分中
             .cornerRadius(30)
             .shadow(radius: kDefaultRadius)

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-
+import SDWebImageSwiftUI
 
 struct QCCourseListView: View {
     
@@ -123,7 +123,7 @@ struct QCCourseView: View {
                     }
                 }
                 Spacer()
-                Image(uiImage: course.image)
+                WebImage(url: course.image) // SDWebImage 加载网络图像
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity)
@@ -205,7 +205,7 @@ struct QCCourse: Identifiable {
     var id = UUID() // id
     var title: String // 标题
     var subtitle: String // 副标题
-    var image: UIImage // 图片
+    var image: URL // 图片 url
     var logo: UIImage // logo
     var color: UIColor // 颜色
     var isShow: Bool // 是否显示
@@ -213,7 +213,14 @@ struct QCCourse: Identifiable {
 
 // MARK:  - 样本数据
 var courseData = [
-    QCCourse(title: "SwiftUI 中的原型设计", subtitle: "18 节课", image: #imageLiteral(resourceName: "Illustration2"), logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), isShow: false),
-    QCCourse(title: "领先的 SwiftUI", subtitle: "20 节课", image: #imageLiteral(resourceName: "Illustration4"), logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1), isShow: false),
-    QCCourse(title: "开发者 UI设计", subtitle: "18 节课", image: #imageLiteral(resourceName: "Illustration1"), logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), isShow: false)
+    QCCourse(title: "SwiftUI 中的原型设计", subtitle: "18 节课", image: URL(string: imageURLs[0])!, logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1), isShow: false),
+    QCCourse(title: "领先的 SwiftUI", subtitle: "20 节课", image: URL(string: imageURLs[1])!, logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1), isShow: false),
+    QCCourse(title: "开发者 UI设计", subtitle: "18 节课", image: URL(string: imageURLs[2])!, logo: #imageLiteral(resourceName: "Logo"), color: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), isShow: false)
+]
+
+/// `图片地址`
+let imageURLs = [
+    "https://images.ctfassets.net/rjfbxqzq2ljs/7DLtup1FVanw6KdXIpDtxx/70d1202ffa657d0cc83afc5497eb103c/thread_45367923_20200114160627_s_6360589_o_w_5000_h_2546_52255.jpg",
+    "https://images.ctfassets.net/rjfbxqzq2ljs/ZONAqgvAUsno8yI0pxWpB/6d3c24b355dfdad4f08f76769e267bf5/timg-2.jpeg",
+    "https://images.ctfassets.net/rjfbxqzq2ljs/3LudqWWQT3XZkUTWEFSEq6/a9025a35f8d64489355ec7a9c05316ee/eb5c94aely8fmvumnl9baj20v90v9q49.jpg"
 ]
