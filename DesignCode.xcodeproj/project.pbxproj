@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB2D94BC24ADD15E00487227 /* QCButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D94BB24ADD15E00487227 /* QCButtons.swift */; };
 		BB57D72024A717CD00C3DBA1 /* QCHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D71F24A717CD00C3DBA1 /* QCHomeView.swift */; };
 		BB57D72224A7371C00C3DBA1 /* QCHomeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */; };
 		BB57D72424A7546A00C3DBA1 /* QCUpdatesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB57D72324A7546A00C3DBA1 /* QCUpdatesListView.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BB2D94BB24ADD15E00487227 /* QCButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCButtons.swift; sourceTree = "<group>"; };
 		BB57D71F24A717CD00C3DBA1 /* QCHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCHomeView.swift; sourceTree = "<group>"; };
 		BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCHomeDetailView.swift; sourceTree = "<group>"; };
 		BB57D72324A7546A00C3DBA1 /* QCUpdatesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCUpdatesListView.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				BB57D72924A7963A00C3DBA1 /* QCTabBarView.swift */,
 				BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */,
 				BB99F48D24AC40010077D7FC /* QCBlurView.swift */,
+				BB2D94BB24ADD15E00487227 /* QCButtons.swift */,
 				BB7FC74424A49FBB008FD8F8 /* LaunchScreen.storyboard */,
 				BB7FC74724A49FBB008FD8F8 /* Info.plist */,
 				BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */,
@@ -268,6 +271,7 @@
 				BB7FC73E24A49FAF008FD8F8 /* QCContentView.swift in Sources */,
 				BBD9211024AB72A900539CC9 /* QCCourseStore.swift in Sources */,
 				BB57D72824A778EE00C3DBA1 /* QCUpdateStore.swift in Sources */,
+				BB2D94BC24ADD15E00487227 /* QCButtons.swift in Sources */,
 				BB57D72C24A7B16F00C3DBA1 /* QCRingView.swift in Sources */,
 				BB66A17A24A61792004F82D4 /* QCMenuView.swift in Sources */,
 				BBF3410B24AA186A0067AAA3 /* QCCourseDetail.swift in Sources */,
