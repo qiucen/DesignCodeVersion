@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct QCLoginView: View {
     
@@ -23,12 +24,21 @@ struct QCLoginView: View {
         self.dismissKeyboard()
         self.isFocused = false
         self.isLoading = true // 改变状态，加载 loading 视图
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.isLoading = false // 移除
-            //  self.showAlert = true
-            self.isSuccess = true // 显示加载动画
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.isSuccess = false // 移除加载动画
+        // 因为延迟时间很长，需要多次测试才能显示出效果，不过下面代码是正确的
+        // 网络请求 firebase
+        Auth.auth().signIn(withEmail: userEmail, password: password) { (result, error) in
+            self.isLoading = false // 先移除
+            if error != nil { // 处理错误
+                printQCDebug(message: error?.localizedDescription ?? "")
+                self.alertMessage = error?.localizedDescription ?? ""
+                self.showAlert = true
+            } else {
+                self.isSuccess = true // 显示加载动画
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.userEmail = "" // 清空文本框
+                    self.password = "" // 清空文本框
+                    self.isSuccess = false // 移除加载动画
+                }
             }
         }
     }
