@@ -12,61 +12,111 @@ struct QCLoginView: View {
     
     @State var userEmail = "" // 账号
     @State var password = "" // 密码
+    @State var isFocused = false // 记录是否点击的状态
+    @State var showAlert = false
+    @State var alertMessage = "出错啦..."
+    
+    /// `退掉键盘`
+    func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            
+        ZStack {
             Color.black.edgesIgnoringSafeArea(.all) // 添加背景色
             
-            Color.white // 在第一层背景色之上再添加一层背景色
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 先裁剪
-                .edgesIgnoringSafeArea(.bottom) // 忽略底部安全区域
-            
-            QCCoverView()
-            
-            VStack { // 账号密码输入视图
-                HStack { // 账号
-                    Image(systemName: "person.crop.circle.fill")
-                        .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1))) // 图像前景色
-                        .frame(width: 44, height: 44)
-                        .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
-                        .padding(.leading)
-                    
-                    TextField("请输入账号", text: $userEmail) // placeHolder 和 绑定的文字(用户输入的)
-                        .keyboardType(.emailAddress) // 只能输入 email
-                        .font(.subheadline) // 字体
-                        .padding(.leading) // 左边填充
-                        .frame(height: 44) // 高度
-                }
+            ZStack(alignment: .top) {
                 
-                Divider().padding(.leading, 80) // 中间分割线，填充是为了与文本对齐
+                Color.white // 在第一层背景色之上再添加一层背景色
+                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 先裁剪
+                    .edgesIgnoringSafeArea(.bottom) // 忽略底部安全区域
                 
-                HStack { // 密码
-                    Image(systemName: "lock.fill")
-                        .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1))) // 图像前景色
-                        .frame(width: 44, height: 44)
-                        .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
-                        .padding(.leading)
+                QCCoverView() // 背景视图
+                
+                VStack { // 账号密码输入视图
+                    HStack { // 账号
+                        Image(systemName: "person.crop.circle.fill")
+                            .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1))) // 图像前景色
+                            .frame(width: 44, height: 44)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
+                            .padding(.leading)
+                        
+                        TextField("请输入账号", text: $userEmail) // placeHolder 和 绑定的文字(用户输入的)
+                            .keyboardType(.emailAddress) // 只能输入 email
+                            .font(.subheadline) // 字体
+                            .padding(.leading) // 左边填充
+                            .frame(height: 44) // 高度
+                            .onTapGesture {
+                                self.isFocused = true
+                        }
+                    }
                     
-                    SecureField("请输入密码", text: $password) // 安全输入文本框
-                        .keyboardType(.default)
-                        .font(.subheadline) // 字体
-                        .padding(.leading) // 左边填充
-                        .frame(height: 44) // 高度
+                    Divider().padding(.leading, 80) // 中间分割线，填充是为了与文本对齐
+                    
+                    HStack { // 密码
+                        Image(systemName: "lock.fill")
+                            .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1))) // 图像前景色
+                            .frame(width: 44, height: 44)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
+                            .padding(.leading)
+                        
+                        SecureField("请输入密码", text: $password) // 安全输入文本框
+                            .keyboardType(.default)
+                            .font(.subheadline) // 字体
+                            .padding(.leading) // 左边填充
+                            .frame(height: 44) // 高度
+                            .onTapGesture {
+                                self.isFocused = true
+                        }
+                    }
                 }
+                .frame(height: 136)
+                .frame(maxWidth: .infinity)
+                .background(QCBlurView(style: .systemMaterial)) // 模糊背景
+                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 圆角裁剪
+                .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 20) // 阴影
+                .padding(.horizontal) // 横向填充
+                .offset(x: 0, y: 460) // 偏移
+                
+                HStack {
+                    Text("忘记密码？")
+                        .font(.subheadline)
+                    
+                    Spacer()
+                    
+                    Button(action: { // Button 的点击事件
+                        self.showAlert = true
+                        self.dismissKeyboard()
+                        self.isFocused = false
+                    }) {
+                        Text("登录").foregroundColor(.black)
+                    }
+                    .padding(12)
+                    .padding(.horizontal, 30)
+                    .background(Color(#colorLiteral(red: 0, green: 0.7529411765, blue: 1, alpha: 1)))
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .shadow(color: Color(#colorLiteral(red: 0, green: 0.7529411765, blue: 1, alpha: 1)).opacity(0.3), radius: 20, x: 0, y: 20)
+                    .alert(isPresented: $showAlert) {
+                        Alert( // 弹框
+                            title: Text("错误提示"), // 标题
+                            message: Text(self.alertMessage), // 信息
+                            dismissButton: .default(Text("好"))) // 点击按钮
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                .padding()
+                
             }
-            .frame(height: 136)
-            .frame(maxWidth: .infinity)
-            .background(QCBlurView(style: .systemMaterial)) // 模糊背景
-            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 圆角裁剪
-            .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 20) // 阴影
-            .padding(.horizontal) // 横向填充
-            .offset(x: 0, y: 460) // 偏移
-            
+            .offset(y: isFocused ? -300 : 0)
+            .animation(isFocused ? .easeInOut : nil) // 条件添加动画效果
+            .onTapGesture {
+                self.isFocused = false
+                self.dismissKeyboard()
+            }
         }
     }
 }
@@ -115,8 +165,11 @@ struct QCCoverView: View {
                         .rotationEffect(.degrees(isShow ? 360 + 90 : 90))
                         // 360 + 90 是为了旋转时旋转整个圆
                         .blendMode(.plusDarker) // 混合模式
-//                        .animation(Animation.linear(duration: 120) // 线性动画
-//                            .repeatForever(autoreverses: false)) // 持续
+//                        .animation(
+//                            Animation
+//                                .linear(duration: 120) // 线性动画
+//                                .repeatForever(autoreverses: false) // 持续
+//                        )
                     .animation(nil)
                         .onAppear { self.isShow = true }
                     
@@ -124,8 +177,9 @@ struct QCCoverView: View {
                         .offset(x: -200, y: -250) // 在背景图片之中设置偏移，只偏移图片
                         .rotationEffect(.degrees(isShow ? 360 : 0), anchor: .leading) // 旋转
                         .blendMode(.overlay) // 混合模式
-                        .animation(Animation.linear(duration: 120)
-                            .repeatForever(autoreverses: false))
+//                        .animation(Animation.linear(duration: 120)
+//                            .repeatForever(autoreverses: false))
+                    .animation(nil)
                 }
         )
             .background(
@@ -135,8 +189,7 @@ struct QCCoverView: View {
             .background(Color(#colorLiteral(red: 0.4117647059, green: 0.4705882353, blue: 0.9725490196, alpha: 1))) // 背景颜色
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 圆角裁剪
             .scaleEffect(isDragging ? 0.9 : 1) // 缩放
-//            .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) // 在 3d 旋转之前添加动画和缩放效果，才可以平滑过渡
-        .animation(nil)
+            .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) // 在 3d 旋转之前添加动画和缩放效果，才可以平滑过渡
             .rotation3DEffect(.degrees(5), axis: (x: viewState.width, y: viewState.height, z: 0)) // 3d 旋转
             .gesture( // 创建手势
                 DragGesture().onChanged({ (value) in
