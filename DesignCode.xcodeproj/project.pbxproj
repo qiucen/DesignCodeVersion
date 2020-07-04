@@ -25,6 +25,7 @@
 		BB99F48924AC2CB40077D7FC /* Contentful in Frameworks */ = {isa = PBXBuildFile; productRef = BB99F48824AC2CB40077D7FC /* Contentful */; };
 		BB99F48C24AC2EC90077D7FC /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BB99F48B24AC2EC90077D7FC /* SDWebImageSwiftUI */; };
 		BB99F48E24AC40010077D7FC /* QCBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB99F48D24AC40010077D7FC /* QCBlurView.swift */; };
+		BBD24A1A24B048A2001B68E2 /* QCLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD24A1924B048A2001B68E2 /* QCLoginView.swift */; };
 		BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210A24AB66F700539CC9 /* QCDataStore.swift */; };
 		BBD9211024AB72A900539CC9 /* QCCourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */; };
 		BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */; };
@@ -63,6 +64,7 @@
 		BB7FC74724A49FBB008FD8F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB7FC74D24A4A0BD008FD8F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB99F48D24AC40010077D7FC /* QCBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCBlurView.swift; sourceTree = "<group>"; };
+		BBD24A1924B048A2001B68E2 /* QCLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCLoginView.swift; sourceTree = "<group>"; };
 		BBD9210A24AB66F700539CC9 /* QCDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCDataStore.swift; sourceTree = "<group>"; };
 		BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseStore.swift; sourceTree = "<group>"; };
 		BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCModifiers.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				BB57D72B24A7B16F00C3DBA1 /* QCRingView.swift */,
 				BB57D71F24A717CD00C3DBA1 /* QCHomeView.swift */,
 				BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */,
+				BBD24A1924B048A2001B68E2 /* QCLoginView.swift */,
 				BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */,
 				BBF3410A24AA186A0067AAA3 /* QCCourseDetail.swift */,
 				BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB57D72624A770FA00C3DBA1 /* QCUpdateDetailView.swift in Sources */,
+				BBD24A1A24B048A2001B68E2 /* QCLoginView.swift in Sources */,
 				BBF3410F24AA58E40067AAA3 /* QCPostList.swift in Sources */,
 				BB57D72224A7371C00C3DBA1 /* QCHomeDetailView.swift in Sources */,
 				BB99F48E24AC40010077D7FC /* QCBlurView.swift in Sources */,
