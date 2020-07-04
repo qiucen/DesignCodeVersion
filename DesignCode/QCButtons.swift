@@ -36,6 +36,7 @@ func impact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
 
 
 // MARK: - 双重 shadow 按钮
+/// `按钮`
 struct QCButtons: View {
     
     var body: some View {

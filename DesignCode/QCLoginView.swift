@@ -15,6 +15,7 @@ struct QCLoginView: View {
     @State var isFocused = false // 记录是否点击的状态
     @State var showAlert = false
     @State var alertMessage = "出错啦..."
+    @State var isLoading = false
     
     /// `退掉键盘`
     func dismissKeyboard() {
@@ -89,9 +90,13 @@ struct QCLoginView: View {
                     Spacer()
                     
                     Button(action: { // Button 的点击事件
-                        self.showAlert = true
                         self.dismissKeyboard()
                         self.isFocused = false
+                        self.isLoading = true // 改变状态，加载 loading 视图
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            self.isLoading = false
+                            self.showAlert = true
+                        }
                     }) {
                         Text("登录").foregroundColor(.black)
                     }
@@ -116,6 +121,9 @@ struct QCLoginView: View {
             .onTapGesture {
                 self.isFocused = false
                 self.dismissKeyboard()
+            }
+            if isLoading { // 加载 loading 动画视图
+                QCLoadingView()
             }
         }
     }
