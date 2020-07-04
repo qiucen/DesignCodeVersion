@@ -8,18 +8,43 @@
 
 import SwiftUI
 
+
+// MARK: - 触感震动反馈函数：真机有效
+/// `震感类型`
+func haptic(type: UINotificationFeedbackGenerator.FeedbackType) {
+    UINotificationFeedbackGenerator().notificationOccurred(type)
+    // UINotificationFeedbackGenerator.FeedbackType 有三种：
+    // .success：成功
+    // .error：失败
+    // .warning：警告
+}
+
+/// `震感等级`
+func impact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+    UIImpactFeedbackGenerator(style: style).impactOccurred()
+    /**
+     case light = 0
+     case medium = 1
+     case heavy = 2
+     @available(iOS 13.0, *)
+     case soft = 3
+     @available(iOS 13.0, *)
+     case rigid = 4
+     */
+}
+
+
+
 // MARK: - 双重 shadow 按钮
 struct QCButtons: View {
     
-    
-    
     var body: some View {
         VStack(spacing: 50) { // 嵌入父容器
-            RectangleButton()
+            RectangleButton() // 圆角矩形按钮
             
-            CircleButton()
+            CircleButton() // 圆形按钮
             
-            PayButton()
+            PayButton() // 付款按钮
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity) // 父容器大小
         .background(Color(#colorLiteral(red: 0.839659512, green: 0.8398010135, blue: 0.8396407962, alpha: 0.558868838))) // 背景色
@@ -84,12 +109,14 @@ struct RectangleButton: View {
             .gesture( // 长按手势
                 LongPressGesture(minimumDuration: 0.5, maximumDistance: 10).onChanged({ (value) in
                     self.isTap = true
+                    impact(style: .heavy) // 震级
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self.isTap = false
                     }
                 })
                     .onEnded({ (value) in
                         self.isPress.toggle()
+                        haptic(type: .success) // 传入成功震动反馈
                     })
         )
     }
