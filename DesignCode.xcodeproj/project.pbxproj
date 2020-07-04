@@ -21,6 +21,7 @@
 		BB693B2324B0B19B009F079B /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BB693B2224B0B19B009F079B /* Lottie */; };
 		BB693B2524B0B24D009F079B /* QCLottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB693B2424B0B24D009F079B /* QCLottieView.swift */; };
 		BB693B2724B0B65E009F079B /* QCLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB693B2624B0B65E009F079B /* QCLoadingView.swift */; };
+		BB693B2924B0C6AC009F079B /* QCSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB693B2824B0C6AC009F079B /* QCSuccessView.swift */; };
 		BB7FC73A24A49FAF008FD8F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FC73924A49FAF008FD8F8 /* AppDelegate.swift */; };
 		BB7FC73C24A49FAF008FD8F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FC73B24A49FAF008FD8F8 /* SceneDelegate.swift */; };
 		BB7FC73E24A49FAF008FD8F8 /* QCContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7FC73D24A49FAF008FD8F8 /* QCContentView.swift */; };
@@ -64,6 +65,7 @@
 		BB693B1E24B0AEF0009F079B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		BB693B2424B0B24D009F079B /* QCLottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCLottieView.swift; sourceTree = "<group>"; };
 		BB693B2624B0B65E009F079B /* QCLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCLoadingView.swift; sourceTree = "<group>"; };
+		BB693B2824B0C6AC009F079B /* QCSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCSuccessView.swift; sourceTree = "<group>"; };
 		BB7FC73624A49FAF008FD8F8 /* DesignCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB7FC73924A49FAF008FD8F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB7FC73B24A49FAF008FD8F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				BB99F48D24AC40010077D7FC /* QCBlurView.swift */,
 				BB693B2424B0B24D009F079B /* QCLottieView.swift */,
 				BB693B2624B0B65E009F079B /* QCLoadingView.swift */,
+				BB693B2824B0C6AC009F079B /* QCSuccessView.swift */,
 				BB2D94BB24ADD15E00487227 /* QCButtons.swift */,
 				BB7FC74424A49FBB008FD8F8 /* LaunchScreen.storyboard */,
 				BB7FC74724A49FBB008FD8F8 /* Info.plist */,
@@ -293,6 +296,7 @@
 				BB57D72224A7371C00C3DBA1 /* QCHomeDetailView.swift in Sources */,
 				BB99F48E24AC40010077D7FC /* QCBlurView.swift in Sources */,
 				BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */,
+				BB693B2924B0C6AC009F079B /* QCSuccessView.swift in Sources */,
 				BB7FC73A24A49FAF008FD8F8 /* AppDelegate.swift in Sources */,
 				BB57D72424A7546A00C3DBA1 /* QCUpdatesListView.swift in Sources */,
 				BB7FC73C24A49FAF008FD8F8 /* SceneDelegate.swift in Sources */,

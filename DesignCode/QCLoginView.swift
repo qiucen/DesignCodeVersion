@@ -16,6 +16,22 @@ struct QCLoginView: View {
     @State var showAlert = false
     @State var alertMessage = "出错啦..."
     @State var isLoading = false
+    @State var isSuccess = false
+    
+    /// `登录逻辑判断`
+    func login() {
+        self.dismissKeyboard()
+        self.isFocused = false
+        self.isLoading = true // 改变状态，加载 loading 视图
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.isLoading = false // 移除
+            //  self.showAlert = true
+            self.isSuccess = true // 显示加载动画
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.isSuccess = false // 移除加载动画
+            }
+        }
+    }
     
     /// `退掉键盘`
     func dismissKeyboard() {
@@ -90,13 +106,7 @@ struct QCLoginView: View {
                     Spacer()
                     
                     Button(action: { // Button 的点击事件
-                        self.dismissKeyboard()
-                        self.isFocused = false
-                        self.isLoading = true // 改变状态，加载 loading 视图
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            self.isLoading = false
-                            self.showAlert = true
-                        }
+                        self.login()
                     }) {
                         Text("登录").foregroundColor(.black)
                     }
@@ -124,6 +134,9 @@ struct QCLoginView: View {
             }
             if isLoading { // 加载 loading 动画视图
                 QCLoadingView()
+            }
+            if isSuccess { // 加载 登录过程动画
+                QCSuccessView()
             }
         }
     }
@@ -204,10 +217,10 @@ struct QCCoverView: View {
                     self.viewState = value.translation // 存储拖拽产生的偏移值
                     self.isDragging = true
                 })
-                    .onEnded({ (value) in
-                        self.viewState = .zero // 拖拽结束时重置
-                        self.isDragging = false
-                    })
+                .onEnded({ (value) in
+                    self.viewState = .zero // 拖拽结束时重置
+                    self.isDragging = false
+                })
         )
     }
 }
