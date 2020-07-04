@@ -18,6 +18,8 @@ struct QCButtons: View {
             RectangleButton()
             
             CircleButton()
+            
+            PayButton()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity) // 父容器大小
         .background(Color(#colorLiteral(red: 0.839659512, green: 0.8398010135, blue: 0.8396407962, alpha: 0.558868838))) // 背景色
@@ -141,6 +143,75 @@ struct CircleButton: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self.isTap = false
                     }
+                })
+                    .onEnded({ (value) in
+                        self.isPress.toggle()
+                    })
+        )
+    }
+}
+
+
+// MARK: - 付款按钮：长按过程动画
+struct PayButton: View {
+    
+    @GestureState var isTap = false
+    @State var isPress = false
+    
+    var body: some View {
+        ZStack { // 用 Z 轴，堆叠两个，长按进行变换
+            Image("fingerprint") // 最外层
+                .opacity(isPress ? 0 : 1)
+                .scaleEffect(isPress ? 0 : 1)
+            
+            Image("fingerprint-2") // 中间层
+                .clipShape(Rectangle().offset(y: isTap ? 0 : 50))
+                .animation(.easeInOut) // 改变动画效果
+                .opacity(isPress ? 0 : 1)
+                .scaleEffect(isPress ? 0 : 1)
+            
+            Image(systemName: "checkmark.circle.fill") // 最上层
+                .font(.system(size: 44, weight: .light))
+                .foregroundColor(Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)))
+                .opacity(isPress ? 1 : 0)
+                .scaleEffect(isPress ? 1 : 0)
+            
+        }
+        .frame(width: 120, height: 120)
+            .background( // 在背景处设置阴影,内置阴影的基本思路就是：在 Z 轴添加阴影
+                ZStack {
+                    LinearGradient(gradient: Gradient(
+                        colors: [Color(isPress ? #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)), Color(isPress ? #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))]),
+                                   startPoint: .topLeading,
+                                   endPoint: .bottomTrailing)
+                    
+                    Circle() // 左上内圈阴影
+                        .stroke(Color.clear, lineWidth: 10) // 渲染
+                        .shadow(color: Color(isPress ? #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), radius: 3, x: -5, y: -5)
+                    
+                    Circle() // 右下内置阴影
+                        .stroke(Color.clear, lineWidth: 10)
+                        .shadow(color: Color(isPress ? #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)), radius: 3, x: 3, y: 3)
+                    
+                }
+        )
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .trim(from: isTap ? 0.0001 : 1, to: 1) // 修剪，从：起始位置，到：结束位置
+                    .stroke(LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)), Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1))]), startPoint: .topLeading, endPoint: .bottomTrailing), style: StrokeStyle(lineWidth: 5, lineCap: .round)) // 线性填充
+                    .frame(width: 88, height: 88)
+                    .rotationEffect(.degrees(90)) // 先旋转 90 度
+                    .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)) // 再 3D 旋转 180 度
+                    .shadow(color: Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)).opacity(0.3), radius: 5, x: 3, y: 3) // 阴影
+                    .animation(.easeInOut) // 改变动画效果
+            )
+            .shadow(color: Color(isPress ? #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)), radius: 20, x: -20, y: -20)
+            .shadow(color: Color(isPress ? #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), radius: 20, x: 20, y: 20)
+            .scaleEffect(isTap ? 1.2 : 1)
+            .gesture( // 这里是持续更新长按手势
+                LongPressGesture().updating($isTap, body: { (currentState, gestureState, transaction) in
+                    gestureState = currentState
                 })
                     .onEnded({ (value) in
                         self.isPress.toggle()
