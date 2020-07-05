@@ -36,6 +36,7 @@ struct QCLoginView: View {
             } else {
                 self.isSuccess = true // 显示加载动画
                 self.user.isLogged = true
+                UserDefaults.standard.set(true, forKey: "isLogged") // 存储用户登录状态
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     self.userEmail = "" // 清空文本框
                     self.password = "" // 清空文本框

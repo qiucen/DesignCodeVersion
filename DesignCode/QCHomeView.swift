@@ -48,7 +48,7 @@ struct QCHomeView: View {
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
             
-            QCMenuView() // 菜单视图
+            QCMenuView(isShowProfile: $isShowProfile) // 菜单视图
                 .background(Color.black.opacity(0.001)) // 设置透明背景视图，目的在于添加点击手势
                 .offset(y: isShowProfile ? 0 : kScreenRect.height) // 设置按钮点按偏移
                 .offset(y: viewState.height) // 设置拖拽手势产生的偏移，让视图移动

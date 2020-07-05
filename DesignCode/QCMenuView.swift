@@ -36,6 +36,10 @@ private let kShadowRadius: CGFloat = 20
 
 // MARK: - 视图
 struct QCMenuView: View {
+    
+    @EnvironmentObject var user: QCUserStore // 用户模型
+    @Binding var isShowProfile: Bool
+    
     var body: some View {
         
         VStack {
@@ -63,6 +67,11 @@ struct QCMenuView: View {
                 QCMenuRow(titile: "账  户", icon: "gear") // 菜单栏第一行
                 QCMenuRow(titile: "账  单", icon: "creditcard") // 菜单栏第二行
                 QCMenuRow(titile: "我  的", icon: "person.crop.circle") // 菜单栏第三行
+                    .onTapGesture {
+                        UserDefaults.standard.set(false, forKey: "isLogged")
+                        self.user.isLogged = false
+                        self.isShowProfile = false
+                }
             }
                 .frame(maxWidth: .infinity) // 最大宽度为屏幕宽度 - 注意这里一定要用 maxWidth:
                 .frame(height: kMenuHeight) // 整个菜单控件的高度
@@ -86,7 +95,8 @@ struct QCMenuView: View {
 
 struct QCMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        QCMenuView()
+        QCMenuView(isShowProfile: .constant(true)).environmentObject(QCUserStore())
+        // 设置环境目标
     }
 }
 
