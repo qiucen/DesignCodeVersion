@@ -57,7 +57,8 @@ struct QCContentView: View {
             // MARK: - 背景 CardView 两个
             // 这里的组件顺序： 从上到下依次是 从外到里（以我自身为里），也就是说，最上面的组件在最外面
             BackCardView() // 最外层View
-                .frame(width: isShowCard ? kCardWidth - 40 : kCardWidth, height: kCardHeight)
+                .frame(maxWidth: isShowCard ? kCardWidth - 40 : kCardWidth)
+                .frame(height: kCardHeight)
                 .background(isShow ? Color("background3") : Color("background10"))
                 .cornerRadius(kDefaultRadius)
                 .shadow(radius: kDefaultRadius) // 阴影
@@ -67,12 +68,13 @@ struct QCContentView: View {
                 .scaleEffect(isShowCard ? 1 : 0.9) // 缩放
                 .rotationEffect(.degrees(isShow ? 0 : kRotationAngle)) // 通过点击改变状态设置不同偏移量
                 .rotationEffect(.degrees(isShowCard ? -kRotationAngle : 0)) // 点击卡片改变旋转角度
-                .rotation3DEffect(.degrees(isShowCard ? 0 : kRotationAngle), axis: (x: kDefaultRadius / 2, y: 0, z: 0))
+//                .rotation3DEffect(.degrees(isShowCard ? 0 : kRotationAngle), axis: (x: kDefaultRadius / 2, y: 0, z: 0))
                 .blendMode(.hardLight) // 混合模式
                 .animation(.easeInOut(duration: 0.5)) // 添加动画 - 淡入淡出，最上面一张卡片动画时长更长
             
             BackCardView() // 中间层 View
-                .frame(width: kCardWidth, height: kCardHeight)
+                .frame(maxWidth: kCardWidth)
+                .frame(height: kCardHeight)
                 .background(isShow ? Color("background10") : Color("background3"))
                 .cornerRadius(kDefaultRadius)
                 .shadow(radius: kDefaultRadius) // 阴影
@@ -82,7 +84,7 @@ struct QCContentView: View {
                 .scaleEffect(isShowCard ? 1 : 0.95) // 缩放
                 .rotationEffect(.degrees(isShow ? 0 : kRotationAngle / 2)) // 通过点击改变状态设置不同偏移量
                 .rotationEffect(.degrees(isShowCard ? -kRotationAngle / 2 : 0)) // 点击卡片改变旋转角度
-                .rotation3DEffect(.degrees(isShowCard ? 0 : kRotationAngle / 2), axis: (x: kDefaultRadius / 2, y: 0, z: 0))
+//                .rotation3DEffect(.degrees(isShowCard ? 0 : kRotationAngle / 2), axis: (x: kDefaultRadius / 2, y: 0, z: 0))
                 .blendMode(.hardLight) // 混合模式
                 .animation(.easeInOut(duration: 0.3)) // 添加动画 - 淡入淡出
             // 关于动画时长：0.3s 是一个很好的动画持续时长，默认是 0.25
@@ -90,7 +92,8 @@ struct QCContentView: View {
             
             // MARK: - 卡片视图
             CardView() // 卡片视图
-                .frame(width: isShowCard ? UIScreen.main.bounds.width : kCardWidth, height: kCardHeight)
+                .frame(maxWidth: isShowCard ? 375 : kCardWidth)
+                .frame(height: kCardHeight)
                 .background(Color.black)
 //                .cornerRadius(kDefaultRadius) // 圆角半径，修剪
                 .clipShape(
@@ -119,45 +122,53 @@ struct QCContentView: View {
                     })
             )
             
-//            Text("\(bottomState.height)").offset(y: -340) // 实时预览中打印值的变化，比 print 更直观
+//            Text("\(bottomState.height)").offset(y: -340)
+            // 实时预览中打印值的变化，比 print 更直观
             
             // MARK: - 底部卡片视图
-            BottomCardView(isShow: $isShowCard) // 底部视图
-                .offset(x: 0, y: isShowCard ? 400 : 1000) // 设置点击时偏移量
-                .offset(y: bottomState.height) // 设置拖拽偏移
-                .blur(radius: isShow ? kDefaultRadius : 0) // 通过点击改变状态设置改变模糊
-                .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) // 添加自定义时间曲线动画效果
-                .gesture( // 创建拖拽手势
-                    DragGesture().onChanged({ (value) in
-                        self.bottomState = value.translation // 存储拖拽改变的值
-                        if self.isShowFull {
-                            self.bottomState.height += -340 // 如果是拉满卡片状态，那么需要加上偏移量
-                        }
-                        if self.bottomState.height < -340 {
-                            self.bottomState.height = -340
-                        }
-                    })
-                        .onEnded({ (value) in // 结束拖拽
-                            if self.bottomState.height > 50 { // 向下拖拽偏移量超过 50 ，dismiss 底部卡片
-                                self.isShowCard = false
+            GeometryReader { bounds in
+                BottomCardView(isShow: self.$isShowCard) // 底部视图
+                    .offset(
+                        x: 0,
+                        y: self.isShowCard ? bounds.size.height / 2 : bounds.size.height + bounds.safeAreaInsets.top + bounds.safeAreaInsets.bottom) // 设置点击时偏移量(动态读取位置)
+                    .offset(y: self.bottomState.height) // 设置拖拽偏移
+                    .blur(radius: self.isShow ? kDefaultRadius : 0) // 通过点击改变状态设置改变模糊
+                    .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) // 添加自定义时间曲线动画效果
+                    .gesture( // 创建拖拽手势
+                        DragGesture().onChanged({ (value) in
+                            self.bottomState = value.translation // 存储拖拽改变的值
+                            if self.isShowFull {
+                                self.bottomState.height += -340 // 如果是拉满卡片状态，那么需要加上偏移量
                             }
-                            if (self.bottomState.height < -100 && !self.isShowFull) || (self.bottomState.height < -250 && self.isShowFull) { // 向上拖拽偏移量超过 100，或者拉满时向下偏移量小于 -250，旧把视图拉上去
+                            if self.bottomState.height < -340 {
                                 self.bottomState.height = -340
-                                self.isShowFull = true
-                            } else {
-                                self.bottomState = .zero // 重置视图位置
-                                self.isShowFull = false
                             }
                         })
+                            .onEnded({ (value) in // 结束拖拽
+                                if self.bottomState.height > 50 { // 向下拖拽偏移量超过 50 ，dismiss 底部卡片
+                                    self.isShowCard = false
+                                }
+                                if (self.bottomState.height < -100 && !self.isShowFull) || (self.bottomState.height < -250 && self.isShowFull) { // 向上拖拽偏移量超过 100，或者拉满时向下偏移量小于 -250，旧把视图拉上去
+                                    self.bottomState.height = -340
+                                    self.isShowFull = true
+                                } else {
+                                    self.bottomState = .zero // 重置视图位置
+                                    self.isShowFull = false
+                                }
+                            })
                 )
+            }
+//            .edgesIgnoringSafeArea(.all) // 忽略安全区域，也可以在设置偏移的时候判读
         }
         
     }
 }
 
+// MARK: - 预览
 struct QCContentView_Previews: PreviewProvider {
     static var previews: some View {
         QCContentView()
+            .previewLayout(.fixed(width: 320, height: 667)) // 老款 SE 大小
     }
 }
 
@@ -211,6 +222,9 @@ struct TitleView: View {
             .padding()
             Image("Background") // 在 Assets.xcassets 目录下，添加`暗黑模式`下的 背景图片
                                 // 就可以自动适应 暗黑模式
+                .resizable() // 可调整图片大小
+                .aspectRatio(contentMode: .fit) // 填充模式
+                .frame(maxWidth: 375) // 为了多屏幕适配
             Spacer()
         }
     }
@@ -252,10 +266,12 @@ struct BottomCardView: View {
         }
             .padding(.top, 8) // 顶部 8 个点
             .padding(.horizontal, 20) // 左右各 20 个点
-            .frame(maxWidth: .infinity) // 设置最大宽度
+            .frame(maxWidth: 712) // 设置最大宽度 712
+            // pad 上内容显示最长宽度为 712 ，太宽了影响阅读体验
             .background(QCBlurView(style: .systemThinMaterial)) // 自定义背景模糊
             // 如果要设置填充，在添加背景颜色之前，应该先设置填充，否则背景色不会设置到填充部分中
             .cornerRadius(30)
             .shadow(radius: kDefaultRadius)
+            .frame(maxWidth: .infinity) // 这里重新限制大小，是为了让视图居中对齐
     }
 }
