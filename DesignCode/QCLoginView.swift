@@ -18,6 +18,7 @@ struct QCLoginView: View {
     @State var alertMessage = "出错啦..."
     @State var isLoading = false
     @State var isSuccess = false
+    @EnvironmentObject var user: QCUserStore
     
     /// `登录逻辑判断`
     func login() {
@@ -34,10 +35,12 @@ struct QCLoginView: View {
                 self.showAlert = true
             } else {
                 self.isSuccess = true // 显示加载动画
+                self.user.isLogged = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     self.userEmail = "" // 清空文本框
                     self.password = "" // 清空文本框
                     self.isSuccess = false // 移除加载动画
+                    self.user.showLogin = false
                 }
             }
         }
@@ -196,21 +199,24 @@ struct QCCoverView: View {
                         .rotationEffect(.degrees(isShow ? 360 + 90 : 90))
                         // 360 + 90 是为了旋转时旋转整个圆
                         .blendMode(.plusDarker) // 混合模式
-//                        .animation(
-//                            Animation
-//                                .linear(duration: 120) // 线性动画
-//                                .repeatForever(autoreverses: false) // 持续
-//                        )
-                    .animation(nil)
+                        .animation(
+                            Animation
+                                .linear(duration: 120) // 线性动画
+                                .repeatForever(autoreverses: false) // 持续
+                        )
+//                    .animation(nil)
                         .onAppear { self.isShow = true }
                     
                     Image(uiImage: #imageLiteral(resourceName: "Blob")) // 浅色气泡
                         .offset(x: -200, y: -250) // 在背景图片之中设置偏移，只偏移图片
                         .rotationEffect(.degrees(isShow ? 360 : 0), anchor: .leading) // 旋转
                         .blendMode(.overlay) // 混合模式
-//                        .animation(Animation.linear(duration: 120)
-//                            .repeatForever(autoreverses: false))
-                    .animation(nil)
+                        .animation(
+                            Animation
+                                .linear(duration: 120)
+                                .repeatForever(autoreverses: false)
+                        )
+//                    .animation(nil)
                 }
         )
             .background(

@@ -22,6 +22,7 @@ struct QCHomeView: View {
     @State var viewState: CGSize = .zero
     /// `是否显示内容 - 默认不显示`
     @State var isShowContent = false
+    @EnvironmentObject var user: QCUserStore
     
     var body: some View {
         ZStack {
@@ -32,7 +33,7 @@ struct QCHomeView: View {
                 .padding(.top, 44) // 手动设置顶部填充状态栏高度
                 .background( // 设置背景视图：渐变 + 背景颜色
                     VStack { // 在设置渐变的地方，设置暗黑模式的背景颜色
-                        LinearGradient(gradient: Gradient(colors: [Color("background2"), Color("background")]), startPoint: .top, endPoint: .bottom)
+                        LinearGradient(gradient: Gradient(colors: [Color("background"), Color("background")]), startPoint: .top, endPoint: .bottom)
                             .frame(height: 200)
                         Spacer()
                     }
@@ -66,6 +67,19 @@ struct QCHomeView: View {
                             self.viewState = .zero // 重置偏移量
                         })
             )
+            
+            if user.showLogin {
+                ZStack {
+                    QCLoginView()
+                    
+                    QCDismissButton()
+                        .padding()
+                        .onTapGesture {
+                            self.user.showLogin = false
+                    }
+                }
+            }
+            
             if isShowContent { // 改变状态，显示视图
                 QCBlurView(style: .systemMaterial).edgesIgnoringSafeArea(.all)
                 QCContentView()
@@ -83,20 +97,40 @@ struct QCHomeView: View {
 // MARK: - 预览
 struct QCHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        QCHomeView().environment(\.colorScheme, .dark) // 设置 `暗黑模式` 下预览
-            .environment(\.sizeCategory, .extraExtraLarge) // 设置 `超超大字体预览`
+        QCHomeView()
+//            .environment(\.colorScheme, .dark) // 设置 `暗黑模式` 下预览
+//            .environment(\.sizeCategory, .extraExtraLarge) // 设置 `超超大字体预览`
+            .environmentObject(QCUserStore())
     }
 }
 
 // MARK: - 用户头像视图
 struct AvatarButtonView: View {
-    @Binding var isShowProfile: Bool // 申明绑定状态 - 此处用来接收
+    @Binding var isShowProfile: Bool // 声明绑定状态 - 此处用来接收
+    @EnvironmentObject var user: QCUserStore // 声明用户是否登录环境
+    
     var body: some View {
-        Button(action: { self.isShowProfile.toggle() }) { // 头像按钮
-            Image("Illustration5")
-                .renderingMode(.original) // 原色模式
-                .resizable() // 可调整尺寸
-                .frame(width: kButtonWidth, height: kButtonWidth) // 尺寸
+        VStack {
+            if user.isLogged {
+                Button(action: { self.isShowProfile.toggle() }) { // 头像按钮
+                Image("Illustration5")
+                    .renderingMode(.original) // 原色模式
+                    .resizable() // 可调整尺寸
+                    .frame(width: kButtonWidth, height: kButtonWidth) // 尺寸
+                }
+            } else {
+                Button(action: { self.user.showLogin.toggle() }) { // 头像按钮
+                Image(systemName: "person")
+                    .foregroundColor(Color.primary) // 设置文字颜色 .primary 适合自适应暗黑模式文字颜色
+                    .font(.system(size: 16, weight: .medium))
+                    .frame(width: 36, height: 36)
+                    .background(Color("icons"))
+                    .clipShape(Circle())
+                    .modifier(QCShadow(
+                        shadowOpacity1: 0.1, shadowRadius1: 1, // 第一重投影
+                        shadowOpacity2: 0.2, shadowRadius2: 5)) // 第二重投影
+                }
+            }
         }
     }
 }

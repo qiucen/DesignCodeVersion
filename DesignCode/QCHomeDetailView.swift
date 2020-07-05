@@ -32,7 +32,7 @@ struct QCHomeDetailView: View {
                             .clipShape(Circle())
                             .modifier(QCShadow(
                                 shadowOpacity1: 0.1, shadowRadius1: 1, // 第一重投影
-                                shadowOpacity2: 0.2, shadowRadius2: 10)) // 第二重投影
+                                shadowOpacity2: 0.2, shadowRadius2: 5)) // 第二重投影
                     }
                     .sheet(isPresented: $isShowUpdates) { // Modal 出一个页面，就是 present
                         QCUpdatesListView()

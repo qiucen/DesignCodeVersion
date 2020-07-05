@@ -33,6 +33,7 @@
 		BBD24A1A24B048A2001B68E2 /* QCLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD24A1924B048A2001B68E2 /* QCLoginView.swift */; };
 		BBD9210B24AB66F700539CC9 /* QCDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210A24AB66F700539CC9 /* QCDataStore.swift */; };
 		BBD9211024AB72A900539CC9 /* QCCourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */; };
+		BBE59F2E24B1893900F5D3DD /* QCUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE59F2D24B1893900F5D3DD /* QCUserStore.swift */; };
 		BBF340F224A83C8D0067AAA3 /* QCModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */; };
 		BBF340FE24A8434D0067AAA3 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */; };
 		BBF340FF24A8434D0067AAA3 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */; };
@@ -81,6 +82,7 @@
 		BBD24A1924B048A2001B68E2 /* QCLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCLoginView.swift; sourceTree = "<group>"; };
 		BBD9210A24AB66F700539CC9 /* QCDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCDataStore.swift; sourceTree = "<group>"; };
 		BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCCourseStore.swift; sourceTree = "<group>"; };
+		BBE59F2D24B1893900F5D3DD /* QCUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCUserStore.swift; sourceTree = "<group>"; };
 		BBF340F124A83C8D0067AAA3 /* QCModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCModifiers.swift; sourceTree = "<group>"; };
 		BBF340F424A8434D0067AAA3 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.ttf"; sourceTree = "<group>"; };
 		BBF340F524A8434D0067AAA3 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.ttf"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				BB57D71F24A717CD00C3DBA1 /* QCHomeView.swift */,
 				BB57D72124A7371C00C3DBA1 /* QCHomeDetailView.swift */,
 				BBD24A1924B048A2001B68E2 /* QCLoginView.swift */,
+				BBE59F2D24B1893900F5D3DD /* QCUserStore.swift */,
 				BBF3410824A87AB50067AAA3 /* QCCourseListView.swift */,
 				BBF3410A24AA186A0067AAA3 /* QCCourseDetail.swift */,
 				BBD9210F24AB72A900539CC9 /* QCCourseStore.swift */,
@@ -369,6 +372,7 @@
 				BB2D94BC24ADD15E00487227 /* QCButtons.swift in Sources */,
 				BB57D72C24A7B16F00C3DBA1 /* QCRingView.swift in Sources */,
 				BB66A17A24A61792004F82D4 /* QCMenuView.swift in Sources */,
+				BBE59F2E24B1893900F5D3DD /* QCUserStore.swift in Sources */,
 				BBF3410B24AA186A0067AAA3 /* QCCourseDetail.swift in Sources */,
 				BB57D72A24A7963A00C3DBA1 /* QCTabBarView.swift in Sources */,
 				BB693B2524B0B24D009F079B /* QCLottieView.swift in Sources */,
