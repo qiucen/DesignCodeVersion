@@ -220,7 +220,7 @@ struct TitleView: View {
                 Spacer()
             }
             .padding()
-            Image("Background") // 在 Assets.xcassets 目录下，添加`暗黑模式`下的 背景图片
+            Image("Background1") // 在 Assets.xcassets 目录下，添加`暗黑模式`下的 背景图片
                                 // 就可以自动适应 暗黑模式
                 .resizable() // 可调整图片大小
                 .aspectRatio(contentMode: .fit) // 填充模式
