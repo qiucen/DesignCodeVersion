@@ -15,51 +15,69 @@ struct QCCourseListView: View {
     @State var isActive = false // @State：表示可改变的
     @State var isActiveIndex = -1
     @State var activeViewSize: CGSize = .zero
+    // 环境变量：水平 sizeClass(宽度)
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     var body: some View {
-        ZStack { // 父视图
-            Color.black.opacity(Double(self.activeViewSize.height / 500)) // 通过位置改变设置背景颜色
-                .animation(.linear) // 设置线性动画
-                .edgesIgnoringSafeArea(.all) // 忽略安全区域
-            ScrollView {
-                Text("课程").font(.title).bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 30)
-                    .padding(.top, 30)
-                    .blur(radius: isActive ? 20 : 0) // 设置文字模糊
-                VStack(spacing: 30) {
-                    ForEach(store.courses.indices, id: \.self) { index in
-                        GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
-                            QCCourseView(isShow: self.$store.courses[index].isShow,
-                                         course: self.store.courses[index],
-                                         isActive: self.$isActive,
-                                         index: index,
-                                         isActiveIndex: self.$isActiveIndex,
-                                         activeViewSize: self.$activeViewSize)
-                                .offset(y: self.store.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
-                                // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
-                                // -geo.frame(in: .global).minY 代表视图顶部 Y 值
-                                .opacity(self.isActiveIndex != index && self.isActive ? 0 : 1)
-                                // 如果当前卡片不是选中状态，那么不透明度为0(透明状态，否则为1)
-                                .scaleEffect(self.isActiveIndex != index && self.isActive ? 0.5 : 1)
-                                // 选中时，当前卡片不缩放；非选中卡片进行缩放
-                                .offset(x: self.isActiveIndex != index && self.isActive ? kScreenRect.width : 0)
-                                // 通过设置偏移来增加动画
+        GeometryReader { bounds in
+            ZStack { // 父视图
+                Color.black.opacity(Double(self.activeViewSize.height / 500)) // 通过位置改变设置背景颜色
+                    .animation(.linear) // 设置线性动画
+                    .edgesIgnoringSafeArea(.all) // 忽略安全区域
+                ScrollView {
+                    Text("课程").font(.title).bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 30)
+                        .padding(.top, 30)
+                        .blur(radius: self.isActive ? 20 : 0) // 设置文字模糊
+                    VStack(spacing: 30) {
+                        ForEach(self.store.courses.indices, id: \.self) { index in
+                            GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
+                                QCCourseView(isShow: self.$store.courses[index].isShow,
+                                             course: self.store.courses[index],
+                                             isActive: self.$isActive,
+                                             index: index,
+                                             isActiveIndex: self.$isActiveIndex,
+                                             activeViewSize: self.$activeViewSize,
+                                             bounds: bounds)
+                                    .offset(y: self.store.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
+                                    // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
+                                    // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                                    .opacity(self.isActiveIndex != index && self.isActive ? 0 : 1)
+                                    // 如果当前卡片不是选中状态，那么不透明度为0(透明状态，否则为1)
+                                    .scaleEffect(self.isActiveIndex != index && self.isActive ? 0.5 : 1)
+                                    // 选中时，当前卡片不缩放；非选中卡片进行缩放
+                                    .offset(x: self.isActiveIndex != index && self.isActive ? bounds.size.width : 0)
+                                    // 通过设置偏移来增加动画
+                            }
+                                .frame(height: self.horizontalSizeClass == .regular ? 80 : 280) // 设置高度，随不同尺组变化而变化
+                                .frame(maxWidth: self.store.courses[index].isShow ? 712 : getCardMaxWidth(bounds: bounds)) // 设置宽度
+                                .zIndex(self.store.courses[index].isShow ? 1 : 0)
+                            // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
+                            // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
                         }
-                            .frame(height: 280) // 设置高度
-                            .frame(maxWidth: self.store.courses[index].isShow ? .infinity : kScreenRect.width - 60) // 设置宽度
-                            .zIndex(self.store.courses[index].isShow ? 1 : 0)
-                        // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
-                        // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
                     }
+                        .frame(width: bounds.size.width) // 设置宽度
+                    .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
                 }
-                .frame(width: kScreenRect.width) // 设置宽度
-                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+                    .statusBar(hidden: self.isActive ? true : false) // 隐藏状态栏
+                .animation(.linear) // 设置线性动画
             }
-            .statusBar(hidden: isActive ? true : false) // 隐藏状态栏
-            .animation(.linear) // 设置线性动画
         }
     }
+}
+
+/// 如果屏幕宽度超过 712 ，返回最大宽度 712，否则返回：宽度 - 60
+/// - Parameter bounds: 检测出的屏幕区域
+/// - Returns: 最大宽度
+private func getCardMaxWidth(bounds: GeometryProxy) -> CGFloat {
+    return bounds.size.width > 712 ? 712 : bounds.size.width - 60
+}
+
+/// 如果屏幕宽度小于 712 并且顶部安全区域高度小于 44，返回 0，否则返回： 30
+/// - Parameter bounds: 检测出的屏幕区域
+private func getCardCornerRadius(bounds: GeometryProxy) -> CGFloat {
+    return (bounds.size.width < 712 && bounds.safeAreaInsets.top < 44) ? 0 : 30
 }
 
 struct QCCourseListView_Previews: PreviewProvider {
@@ -77,6 +95,7 @@ struct QCCourseView: View {
     var index: Int // 索引
     @Binding var isActiveIndex: Int // 需要传递的索引
     @Binding var activeViewSize: CGSize // 初始值位置，绑定状态
+    var bounds: GeometryProxy // 传入数值
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -92,7 +111,7 @@ struct QCCourseView: View {
             .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? kScreenRect.height : 280, alignment: .top)
             .offset(y: isShow ? 460 : 0)
             .background(Color("icons"))
-            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: isShow ? getCardCornerRadius(bounds: bounds) : 30, style: .continuous))
             .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
             .opacity(isShow ? 1 : 0)
             
@@ -133,7 +152,7 @@ struct QCCourseView: View {
             .padding(.top, isShow ? 30 : 0) // 设置全屏幕是的填充边距
             .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? 460 : 290) // 卡片父容器尺寸
                 .background(Color(course.color))
-            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: isShow ? getCardCornerRadius(bounds: bounds) : 30, style: .continuous))
             .shadow(color: Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)).opacity(0.3), radius: 30, x: 0, y: 30)
             .gesture( // 创建拖拽手势
                 // 创建拖动手势生效条件： isShow ? (手势设置) : nil
@@ -170,7 +189,7 @@ struct QCCourseView: View {
                     .animation(nil)
             }
         }
-        .frame(height: isShow ? kScreenRect.height : 280)
+        .frame(height: isShow ? bounds.size.height + bounds.safeAreaInsets.top + bounds.safeAreaInsets.bottom : 280) // 加上上下安全区域的高度
         .scaleEffect(1 - self.activeViewSize.height / 1000) // 设置缩放效果
         .rotation3DEffect(.degrees(Double(self.activeViewSize.height / 10)), axis: (x: 0, y: 10, z: 0)) // 设置 3d 效果
         .hueRotation(.degrees(Double(self.activeViewSize.height))) // hueRotation 改变色调
