@@ -13,6 +13,7 @@ struct QCHomeDetailView: View {
     @Binding var isShowProfile: Bool
     @State var isShowUpdates = false
     @Binding var isShowContent: Bool
+    @Binding var viewState: CGSize
     var body: some View {
         GeometryReader { bounds in
             ScrollView {
@@ -61,7 +62,7 @@ struct QCHomeDetailView: View {
                                 GeometryReader { geo in // 滑动时数据动态监测器
                                     SectionView(section: item) // 填充数据
                                         .rotation3DEffect( // 设置 3d 动画效果
-                                            .degrees(Double(geo.frame(in: .global).minX - 30) / -20),
+                                            .degrees(Double(geo.frame(in: .global).minX - 30) / -getAngleMutiplier(bounds: bounds)),
                                             // 1. 这是横向滚动，所以需要 minX，如果纵向，就用 minY，30 是初始值，需要减掉，
                                             //    除以倍数是为了让动画效果更平滑
                                             axis: (x: 0, y: 10, z: 0)) // 固定角度在 y 轴上
@@ -88,14 +89,25 @@ struct QCHomeDetailView: View {
                 }
                 .frame(width: bounds.size.width) // 设置屏幕宽度，以保证来回切换不会有动画效果
                                                  // 用 geo 来动态读取宽度(是否横屏)
+                    .offset(y: self.isShowProfile ? -450 : 0) // 设置偏移量
+                    .rotation3DEffect(.degrees(self.isShowProfile ? Double(self.viewState.height / 10) - 10 : 0), axis: (x: 10, y: 0, z: 0)) // 设置 3d 旋转效果
+                              // 这里的 Double(viewState.height / 10) - 10 是为了不让动画这么锐利，看起来更平滑一点
+                    .scaleEffect(self.isShowProfile ? 0.9 : 1) // 设置缩放
+                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
             }
         }
     }
 }
 
+/// `返回角度乘数，如果检测宽度大于 500 ，返回 80，否则：返回30`
+/// - Parameter bounds: 检测的区域
+private func getAngleMutiplier(bounds: GeometryProxy) -> Double {
+    return bounds.size.width > 500 ? 80 : 30
+}
+
 struct QCHomeDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        QCHomeDetailView(isShowProfile: .constant(false), isShowContent: .constant(false)) // 这里的预览视图传递
+        QCHomeDetailView(isShowProfile: .constant(false), isShowContent: .constant(false), viewState: .constant(.zero)) // 这里的预览视图传递
                                                                         // 是因为，没有可以传递的绑定值，所以传默认值
         .environmentObject(QCUserStore())
     }
@@ -125,7 +137,7 @@ struct SectionView: View {
         }
         .padding(.top, 20)
         .padding(.horizontal, 20)
-        .frame(width: frameWidthAndHeight, height: frameWidthAndHeight)
+        .frame(width: frameWidthAndHeight, height: 275)
         .background(section.color)
         .cornerRadius(30)
         .shadow(color: section.color.opacity(0.3), radius: 20, x: 0, y: 20)

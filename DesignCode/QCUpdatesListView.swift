@@ -66,6 +66,7 @@ struct QCUpdatesListView: View {
                         .accentColor(.black)
             )
         }
+        .navigationViewStyle(StackNavigationViewStyle()) // 设置样式全屏显示
     }
 }
 

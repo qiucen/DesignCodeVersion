@@ -29,24 +29,16 @@ struct QCHomeView: View {
             Color("background")
                 .edgesIgnoringSafeArea(.all) // 忽略安全区域
             
-            QCHomeDetailView(isShowProfile: $isShowProfile, isShowContent: $isShowContent) // 提取视图到一个单独的文件
-                .padding(.top, 44) // 手动设置顶部填充状态栏高度
-                .background( // 设置背景视图：渐变 + 背景颜色
-                    VStack { // 在设置渐变的地方，设置暗黑模式的背景颜色
-                        LinearGradient(gradient: Gradient(colors: [Color("background"), Color("background")]), startPoint: .top, endPoint: .bottom)
-                            .frame(height: 200)
-                        Spacer()
-                    }
-                    .background(Color("background"))
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 设置圆角裁剪
-                .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20) // 设置阴影
+            QCHomeBackgroundView(isShowProfile: $isShowProfile) // 背景视图
                 .offset(y: isShowProfile ? -450 : 0) // 设置偏移量
                 .rotation3DEffect(.degrees(isShowProfile ? Double(viewState.height / 10) - 10 : 0), axis: (x: 10, y: 0, z: 0)) // 设置 3d 旋转效果
                               // 这里的 Double(viewState.height / 10) - 10 是为了不让动画这么锐利，看起来更平滑一点
                 .scaleEffect(isShowProfile ? 0.9 : 1) // 设置缩放
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
-                .edgesIgnoringSafeArea(.all) // 忽略安全区域
+                .edgesIgnoringSafeArea(.all)
+            
+            QCHomeDetailView(isShowProfile: $isShowProfile, isShowContent: $isShowContent, viewState: $viewState) // 提取视图到一个单独的文件
+                
             
             QCMenuView(isShowProfile: $isShowProfile) // 菜单视图
                 .background(Color.black.opacity(0.001)) // 设置透明背景视图，目的在于添加点击手势
@@ -111,7 +103,7 @@ struct AvatarButtonView: View {
     
     var body: some View {
         VStack {
-            if user.isLogged {
+            if !user.isLogged {
                 Button(action: { self.isShowProfile.toggle() }) { // 头像按钮
                 Image("Illustration5")
                     .renderingMode(.original) // 原色模式
@@ -150,5 +142,22 @@ struct QCDismissButton: View {
             Spacer()
         }
         .offset(x: -16, y: 16)
+    }
+}
+
+// MARK: - 背景视图
+struct QCHomeBackgroundView: View {
+    @Binding var isShowProfile: Bool // 绑定状态
+    var body: some View {
+        VStack { // 在设置渐变的地方，设置暗黑模式的背景颜色
+            LinearGradient(gradient: Gradient(colors: [Color("background"), Color("background")]), startPoint: .top, endPoint: .bottom)
+                .frame(height: 200)
+            Spacer()
+        }
+        .background(Color("background"))
+        // 设置圆角裁剪
+            .clipShape(RoundedRectangle(cornerRadius: isShowProfile ? 30 : 0, style: .continuous))
+        // 设置阴影
+        .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
     }
 }

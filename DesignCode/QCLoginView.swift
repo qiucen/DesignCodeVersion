@@ -106,7 +106,7 @@ struct QCLoginView: View {
                     }
                 }
                 .frame(height: 136)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: 712) // 设置最大宽度为 712
                 .background(QCBlurView(style: .systemMaterial)) // 模糊背景
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // 圆角裁剪
                 .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 20) // 阴影

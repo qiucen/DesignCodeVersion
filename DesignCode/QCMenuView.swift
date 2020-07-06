@@ -73,7 +73,7 @@ struct QCMenuView: View {
                         self.isShowProfile = false
                 }
             }
-                .frame(maxWidth: .infinity) // 最大宽度为屏幕宽度 - 注意这里一定要用 maxWidth:
+                .frame(maxWidth: 500) // 最大宽度为屏幕宽度 - 注意这里一定要用 maxWidth:
                 .frame(height: kMenuHeight) // 整个菜单控件的高度
                 .background(QCBlurView(style: .systemThinMaterial)) // 背景设置模糊视图
                 .clipShape(RoundedRectangle(cornerRadius: kRadius, style: .continuous)) // 圆角裁剪
