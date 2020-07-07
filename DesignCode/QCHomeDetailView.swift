@@ -10,10 +10,19 @@ import SwiftUI
 
 // MARK:  - 提取的独立视图
 struct QCHomeDetailView: View {
+    
     @Binding var isShowProfile: Bool
     @State var isShowUpdates = false
     @Binding var isShowContent: Bool
     @Binding var viewState: CGSize
+    
+    @ObservedObject var store = QCCourseStore() // 从 contentful 获取到的数据
+    @State var isActive = false // @State：表示可改变的
+    @State var isActiveIndex = -1
+    @State var activeViewSize: CGSize = .zero
+    // 环境变量：水平 sizeClass(宽度)
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
     var body: some View {
         GeometryReader { bounds in
             ScrollView {
@@ -44,6 +53,7 @@ struct QCHomeDetailView: View {
                     .padding(.horizontal) // 水平填充
                     .padding(.leading, 14) // 单独设置左边填充
                     .padding(.top, 30) // 顶部填充
+                    .blur(radius: self.isActive ? 20 : 0)
                     
                     // MARK: - 文字 + 圆环视图
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -54,6 +64,7 @@ struct QCHomeDetailView: View {
                                 self.isShowContent = true
                         }
                     }
+                    .blur(radius: self.isActive ? 20 : 0)
                     
                     // MARK: - ScrollView
                     ScrollView(.horizontal, showsIndicators: false) { // 创建使用 ScrollView
@@ -74,6 +85,7 @@ struct QCHomeDetailView: View {
                         .padding(.bottom, 30)
                     }
                     .offset(y: -30)
+                    .blur(radius: self.isActive ? 20 : 0)
                     
                     HStack { // 课程标题 View
                         Text("课程")
@@ -82,9 +94,38 @@ struct QCHomeDetailView: View {
                     }
                     .padding(.leading, 30)
                     .offset(y: -60)
+                    .blur(radius: self.isActive ? 20 : 0)
                     
-                    SectionView(section: sectionData[3], frameWidthAndHeight: bounds.size.width - 60)
-                        .offset(y: -60)
+                    VStack(spacing: 30) {
+                        ForEach(self.store.courses.indices, id: \.self) { index in
+                            GeometryReader { geo in // 位置扫描器，感知课程卡片视图的偏移位置
+                                QCCourseView(isShow: self.$store.courses[index].isShow,
+                                             course: self.store.courses[index],
+                                             isActive: self.$isActive,
+                                             index: index,
+                                             isActiveIndex: self.$isActiveIndex,
+                                             activeViewSize: self.$activeViewSize,
+                                             bounds: bounds)
+                                    .offset(y: self.store.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
+                                    // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
+                                    // -geo.frame(in: .global).minY 代表视图顶部 Y 值
+                                    .opacity(self.isActiveIndex != index && self.isActive ? 0 : 1)
+                                    // 如果当前卡片不是选中状态，那么不透明度为0(透明状态，否则为1)
+                                    .scaleEffect(self.isActiveIndex != index && self.isActive ? 0.5 : 1)
+                                    // 选中时，当前卡片不缩放；非选中卡片进行缩放
+                                    .offset(x: self.isActiveIndex != index && self.isActive ? bounds.size.width : 0)
+                                    // 通过设置偏移来增加动画
+                            }
+                                .frame(height: self.horizontalSizeClass == .regular ? 80 : 280) // 设置高度，随不同尺组变化而变化
+                                .frame(maxWidth: self.store.courses[index].isShow ? 712 : getCardMaxWidth(bounds: bounds)) // 设置宽度
+                                .zIndex(self.store.courses[index].isShow ? 1 : 0)
+                            // 这里设置 zIndex：如果卡片状态是显示，那么 zIndex 为1，
+                            // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
+                        }
+                    }
+                    .padding(.bottom, 30)
+                    .offset(y: -60)
+                    
                     Spacer()
                 }
                 .frame(width: bounds.size.width) // 设置屏幕宽度，以保证来回切换不会有动画效果

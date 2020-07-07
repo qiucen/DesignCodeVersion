@@ -57,7 +57,7 @@ struct QCCourseListView: View {
                             // 在 z 轴中 位于最上方(最里，朝向自己)，否则不改变
                         }
                     }
-                        .frame(width: bounds.size.width) // 设置宽度
+                    .frame(width: bounds.size.width) // 设置宽度
                     .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
                 }
                     .statusBar(hidden: self.isActive ? true : false) // 隐藏状态栏
@@ -70,13 +70,13 @@ struct QCCourseListView: View {
 /// 如果屏幕宽度超过 712 ，返回最大宽度 712，否则返回：宽度 - 60
 /// - Parameter bounds: 检测出的屏幕区域
 /// - Returns: 最大宽度
-private func getCardMaxWidth(bounds: GeometryProxy) -> CGFloat {
+ func getCardMaxWidth(bounds: GeometryProxy) -> CGFloat {
     return bounds.size.width > 712 ? 712 : bounds.size.width - 60
 }
 
 /// 如果屏幕宽度小于 712 并且顶部安全区域高度小于 44，返回 0，否则返回： 30
 /// - Parameter bounds: 检测出的屏幕区域
-private func getCardCornerRadius(bounds: GeometryProxy) -> CGFloat {
+ func getCardCornerRadius(bounds: GeometryProxy) -> CGFloat {
     return (bounds.size.width < 712 && bounds.safeAreaInsets.top < 44) ? 0 : 30
 }
 

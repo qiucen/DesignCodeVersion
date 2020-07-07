@@ -29,8 +29,9 @@ struct QCTabBarView: View {
 struct QCTabBarView_Previews: PreviewProvider {
     static var previews: some View {
         Group { // 多设备实时预览
-            QCTabBarView().previewDevice("iPhone 8")
+//            QCTabBarView().previewDevice("iPhone 8")
             QCTabBarView().previewDevice("iPhone 11")
+            .environmentObject(QCUserStore()) // 需要绑定环境对象才能实时预览
         }
     }
 }
