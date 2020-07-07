@@ -103,7 +103,7 @@ struct AvatarButtonView: View {
     
     var body: some View {
         VStack {
-            if !user.isLogged {
+            if user.isLogged {
                 Button(action: { self.isShowProfile.toggle() }) { // 头像按钮
                 Image("Illustration5")
                     .renderingMode(.original) // 原色模式

@@ -17,6 +17,7 @@ struct QCCourseListView: View {
     @State var activeViewSize: CGSize = .zero
     // 环境变量：水平 sizeClass(宽度)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @State var isScrollable = false
     
     var body: some View {
         GeometryReader { bounds in
@@ -39,7 +40,8 @@ struct QCCourseListView: View {
                                              index: index,
                                              isActiveIndex: self.$isActiveIndex,
                                              activeViewSize: self.$activeViewSize,
-                                             bounds: bounds)
+                                             bounds: bounds,
+                                             isScrollable: self.$isScrollable)
                                     .offset(y: self.store.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
                                     // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
                                     // -geo.frame(in: .global).minY 代表视图顶部 Y 值
@@ -60,8 +62,9 @@ struct QCCourseListView: View {
                     .frame(width: bounds.size.width) // 设置宽度
                     .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
                 }
-                    .statusBar(hidden: self.isActive ? true : false) // 隐藏状态栏
+                .statusBar(hidden: self.isActive ? true : false) // 隐藏状态栏
                 .animation(.linear) // 设置线性动画
+                .disabled(self.isActive && !self.isScrollable ? true : false)
             }
         }
     }
@@ -96,6 +99,7 @@ struct QCCourseView: View {
     @Binding var isActiveIndex: Int // 需要传递的索引
     @Binding var activeViewSize: CGSize // 初始值位置，绑定状态
     var bounds: GeometryProxy // 传入数值
+    @Binding var isScrollable: Bool // 是否可滑动标志
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -107,6 +111,7 @@ struct QCCourseView: View {
                     //                        .frame(maxHeight: .infinity)
                     .lineSpacing(6)
             }
+            .animation(nil)
             .padding(30)
             .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? kScreenRect.height : 280, alignment: .top)
             .offset(y: isShow ? 460 : 0)
@@ -139,6 +144,7 @@ struct QCCourseView: View {
                         .background(Color.black)
                         .clipShape(Circle())
                         .opacity(isShow ? 1 : 0)
+                        .offset(x: 2, y: -2)
                     }
                 }
                 Spacer()
@@ -167,6 +173,7 @@ struct QCCourseView: View {
                             self.isActive = false
                             self.isShow = false
                             self.isActiveIndex = -1
+                            self.isScrollable = false
                         }
                         print(value)
                         self.activeViewSize = .zero // 结束拖拽时重置
@@ -181,12 +188,16 @@ struct QCCourseView: View {
                 } else {
                     self.isActiveIndex = -1
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    self.isScrollable = true
+                }
             }
-            if isShow {
-                QCCourseDetail(course: course, isShow: $isShow, isActive: $isActive, isActiveIndex: $isActiveIndex)
-                    .background(Color("icons"))
-                    .cornerRadius(30) // 这里渲染背景时，设置边角半径，裁剪一部分
+            if isScrollable {
+                QCCourseDetail(course: course, isShow: $isShow, isActive: $isActive, isActiveIndex: $isActiveIndex, isSrollable: $isScrollable, bounds: bounds)
+                    .background(Color.white) // Color("icons")
+                    .clipShape(RoundedRectangle(cornerRadius: isShow ? getCardCornerRadius(bounds: bounds) : 30, style: .continuous))
                     .animation(nil)
+                    .transition(.identity) // 取消过渡效果
             }
         }
         .frame(height: isShow ? bounds.size.height + bounds.safeAreaInsets.top + bounds.safeAreaInsets.bottom : 280) // 加上上下安全区域的高度
@@ -200,7 +211,7 @@ struct QCCourseView: View {
             isShow ?
             DragGesture().onChanged({ (value) in
                 guard value.translation.height < 300 else { return } // 拖动高度小于 300 时，才可改变位置大小
-                guard value.translation.height > 0 else { return } // 这里设置高度大于 0 ，是为了防止拖拽放大卡片
+                guard value.translation.height > 40 else { return } // 这里设置高度大于 40 ，是为了防止拖拽放大卡片
                 self.activeViewSize = value.translation // 拖拽时存储改变的位置大小
             })
                 .onEnded({ (value) in
@@ -208,12 +219,14 @@ struct QCCourseView: View {
                         self.isActive = false
                         self.isShow = false
                         self.isActiveIndex = -1
+                        self.isScrollable = false
                     }
                     print(value)
                     self.activeViewSize = .zero // 结束拖拽时重置
                 })
             : nil
         )
+        .disabled(isActive && !isScrollable ? true : false) // 禁用手势
         .edgesIgnoringSafeArea(.all)
     }
 }

@@ -22,6 +22,7 @@ struct QCHomeDetailView: View {
     @State var activeViewSize: CGSize = .zero
     // 环境变量：水平 sizeClass(宽度)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @State var isScrollable = false
     
     var body: some View {
         GeometryReader { bounds in
@@ -105,7 +106,8 @@ struct QCHomeDetailView: View {
                                              index: index,
                                              isActiveIndex: self.$isActiveIndex,
                                              activeViewSize: self.$activeViewSize,
-                                             bounds: bounds)
+                                             bounds: bounds,
+                                             isScrollable: self.$isScrollable)
                                     .offset(y: self.store.courses[index].isShow ? -geo.frame(in: .global).minY : 0)
                                     // 设置偏移，偏移量为此张卡片的顶部 Y 值，推动卡片到顶部
                                     // -geo.frame(in: .global).minY 代表视图顶部 Y 值
@@ -136,6 +138,7 @@ struct QCHomeDetailView: View {
                     .scaleEffect(self.isShowProfile ? 0.9 : 1) // 设置缩放
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) // 设置动画
             }
+            .disabled(self.isActive && !self.isScrollable ? true : false)
         }
     }
 }

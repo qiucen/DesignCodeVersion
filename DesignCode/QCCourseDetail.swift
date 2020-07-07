@@ -15,10 +15,12 @@ struct QCCourseDetail: View {
     @Binding var isShow: Bool
     @Binding var isActive: Bool
     @Binding var isActiveIndex: Int
+    @Binding var isSrollable: Bool
+    var bounds: GeometryProxy
     
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 0) {
                 VStack { // 卡片父容器
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 8) {
@@ -42,6 +44,7 @@ struct QCCourseDetail: View {
                                 self.isShow = false
                                 self.isActive = false
                                 self.isActiveIndex = -1
+                                self.isSrollable = false
                             }
                         }
                     }
@@ -54,9 +57,10 @@ struct QCCourseDetail: View {
                 }
                 .padding(isShow ? 30 : 20) // 设置全屏幕是的填充边距
                 .padding(.top, isShow ? 30 : 0) // 设置全屏幕是的填充边距
-                .frame(maxWidth: isShow ? .infinity : kScreenRect.width - 60, maxHeight: isShow ? 460 : 290) // 卡片父容器尺寸
+                .frame(maxWidth: isShow ? .infinity : bounds.size.width - 60) // 卡片父容器尺寸
+                .frame(height: isShow ? 460 : 290)
                 .background(Color(course.color))
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: getCardCornerRadius(bounds: bounds), style: .continuous))
                 .shadow(color: Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)).opacity(0.3), radius: 30, x: 0, y: 30)
                 
                 VStack(alignment: .leading, spacing: 20) { // 文本父容器
@@ -76,6 +80,8 @@ struct QCCourseDetail: View {
 
 struct QCCourseDetail_Previews: PreviewProvider {
     static var previews: some View {
-        QCCourseDetail(course: courseData[0], isShow: .constant(true), isActive: .constant(true), isActiveIndex: .constant(-1))
+        GeometryReader { bounds in
+            QCCourseDetail(course: courseData[0], isShow: .constant(true), isActive: .constant(true), isActiveIndex: .constant(-1), isSrollable: .constant(true), bounds: bounds)
+        }
     }
 }
