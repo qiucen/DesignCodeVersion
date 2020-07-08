@@ -517,7 +517,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "DesignCode/Preview\\ Content DesignCode/Preview\\ Content/Preview\\ Assets.xcassets";
-				DEVELOPMENT_TEAM = 9DPNLN6Q8H;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = DesignCode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -540,7 +540,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "DesignCode/Preview\\ Content DesignCode/Preview\\ Content/Preview\\ Assets.xcassets";
-				DEVELOPMENT_TEAM = 9DPNLN6Q8H;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = DesignCode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

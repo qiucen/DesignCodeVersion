@@ -194,7 +194,7 @@ struct QCCourseView: View {
             }
             if isScrollable {
                 QCCourseDetail(course: course, isShow: $isShow, isActive: $isActive, isActiveIndex: $isActiveIndex, isSrollable: $isScrollable, bounds: bounds)
-                    .background(Color.white) // Color("icons")
+                    .background(Color("icons")) // Color.white
                     .clipShape(RoundedRectangle(cornerRadius: isShow ? getCardCornerRadius(bounds: bounds) : 30, style: .continuous))
                     .animation(nil)
                     .transition(.identity) // 取消过渡效果

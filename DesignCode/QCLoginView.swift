@@ -69,7 +69,7 @@ struct QCLoginView: View {
                         Image(systemName: "person.crop.circle.fill")
                             .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1))) // 图像前景色
                             .frame(width: 44, height: 44)
-                            .background(Color.white)
+                            .background(Color("icons"))
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                             .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
                             .padding(.leading)
@@ -90,7 +90,7 @@ struct QCLoginView: View {
                         Image(systemName: "lock.fill")
                             .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1))) // 图像前景色
                             .frame(width: 44, height: 44)
-                            .background(Color.white)
+                            .background(Color("icons"))
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                             .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
                             .padding(.leading)
@@ -116,6 +116,8 @@ struct QCLoginView: View {
                 HStack {
                     Text("忘记密码？")
                         .font(.subheadline)
+                        .foregroundColor(.black)
+//                        .background(Color("icons"))
                     
                     Spacer()
                     
